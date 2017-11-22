@@ -23,9 +23,16 @@ document.body.appendChild(stopButton);
 let imageData = new ImageData(10, 10);
 
 let ctx = canvas.getContext("2d");
+let output = ctx.createImageData(canvas.width, canvas.height);
+let length = output.data.length;
 
-ctx.putImageData(imageData, 20, 20);
 
+let interval = setInterval(() => {
+	for (var i = 0; i < length; i++) {
+		output.data[i] = Math.round(255 * Math.random());
+	}
+	ctx.putImageData(output, 0, 0);
+}, 60);
 
 
 console.log(imageData);
