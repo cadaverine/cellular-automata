@@ -20,7 +20,13 @@ document.body.appendChild(startButton);
 document.body.appendChild(stopButton);
 
 
+let imageData = new ImageData(10, 10);
+
 let ctx = canvas.getContext("2d");
 
+ctx.putImageData(imageData, 20, 20);
 
+
+
+console.log(imageData);
 console.log(ctx);
