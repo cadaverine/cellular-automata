@@ -3,7 +3,7 @@
 }
 
 .main-container {
-	width: 600px;
+	width: 608px;
 	margin: auto;
 }
 
@@ -15,16 +15,17 @@
 	background: #1E88E5;
 	color: #F7F7F7;
 	transition: all 0.3s;
-	border-radius: 0px;
+	border-radius: 3px;
 	border: 0;
 
 }
 .button:hover {
 	background: #42A5F5;
-	color: #090909;
+	color: #424242;
 }
 
 .canvas {
 	display: inline-block;
-	border: 1px solid gray;
+	border: 3px solid #1E88E5;
+	border-radius: 4px;
 }
