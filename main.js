@@ -2,11 +2,14 @@ const width = 800;
 const height = 400;
 
 let canvas = document.createElement("canvas");
+
 let buttonContainer = document.createElement("div");
 let startButton = document.createElement("button");
 let stopButton = document.createElement("button");
+let clearButton = document.createElement("button");
 let startButtonText = document.createTextNode("Start");
 let stopButtonText = document.createTextNode("Stop");
+let clearButtonText= document.createTextNode("Clear");
 
 Object.assign(canvas, { className: "canvas scene", width, height });
 Object.assign(startButton, { className: "button start-button"});
@@ -15,11 +18,12 @@ Object.assign(buttonContainer, { className: "container button-container" });
 
 startButton.appendChild(startButtonText);
 stopButton.appendChild(stopButtonText);
+clearButton.appendChild(clearButtonText);
 buttonContainer.appendChild(startButton);
 buttonContainer.appendChild(stopButton);
+buttonContainer.appendChild(clearButton);
 document.body.appendChild(canvas);
 document.body.appendChild(buttonContainer);
-
 
 let imageData = new ImageData(10, 10);
 
