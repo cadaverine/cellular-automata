@@ -47,11 +47,10 @@ buttonContainer.appendChild(stopButton);
 buttonContainer.appendChild(clearButton);
 buttonContainer.appendChild(colorRange);
 buttonContainer.appendChild(intervalRange);
-
 mainContainer.appendChild(canvas);
 mainContainer.appendChild(buttonContainer);
-
 document.body.appendChild(mainContainer);
+
 
 let ctx = canvas.getContext("2d");
 let output = ctx.createImageData(canvas.width, canvas.height);
@@ -110,7 +109,14 @@ intervalRange.oninput = () => {
 console.log(ctx);
 
 
+board = new Board(canvas, 50);
+board.setRandom();
 
+console.log(board.matrix);
+
+board.nextStep();
+
+console.log(board.matrix);
 
 
 
