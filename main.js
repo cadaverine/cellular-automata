@@ -21,7 +21,6 @@ document.body.appendChild(canvas);
 document.body.appendChild(buttonContainer);
 
 
-
 let imageData = new ImageData(10, 10);
 
 let ctx = canvas.getContext("2d");
