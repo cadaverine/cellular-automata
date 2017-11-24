@@ -1,5 +1,7 @@
-const width = 800;
+const width = 600;
 const height = 400;
+
+let mainContainer = document.createElement("div");
 
 let canvas = document.createElement("canvas");
 
@@ -14,6 +16,9 @@ let clearButtonText= document.createTextNode("Clear");
 Object.assign(canvas, { className: "canvas scene", width, height });
 Object.assign(startButton, { className: "button start-button"});
 Object.assign(stopButton, { className: "button stop-button"});
+Object.assign(clearButton, { className: "button clear-button"});
+
+Object.assign(mainContainer, { className: "container main-container" });
 Object.assign(buttonContainer, { className: "container button-container" });
 
 startButton.appendChild(startButtonText);
@@ -22,8 +27,11 @@ clearButton.appendChild(clearButtonText);
 buttonContainer.appendChild(startButton);
 buttonContainer.appendChild(stopButton);
 buttonContainer.appendChild(clearButton);
-document.body.appendChild(canvas);
-document.body.appendChild(buttonContainer);
+
+mainContainer.appendChild(canvas);
+mainContainer.appendChild(buttonContainer);
+
+document.body.appendChild(mainContainer);
 
 let imageData = new ImageData(10, 10);
 
@@ -39,20 +47,25 @@ let length = output.data.length;
 // 	ctx.putImageData(output, 0, 0);
 // }, 60);
 
-let interval;
+let interval = null;
 
 startButton.onclick = (interval) => {
-	interval = setInterval(() => {
-		for (var i = 0; i < length; i++) {
-			output.data[i] = Math.round(255 * Math.random());
-		}
-		ctx.putImageData(output, 0, 0);
-	}, 60);
+	if (interval === null) {
+		interval = setInterval(() => {
+			for (var i = 0; i < length; i++) {
+				output.data[i] = Math.round(255 * Math.random());
+			}
+			ctx.putImageData(output, 0, 0);
+		}, 60);
+		console.log(interval);
+	}
 }
 
 
 stopButton.onclick = (interval) => {
-	clearInterval(interval.id); // не работает (undefined)
+	console.log(interval);
+	clearInterval(interval); // не работает (undefined)
+	interval = null;
 }
 
 
