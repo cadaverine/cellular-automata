@@ -14,11 +14,14 @@ let stopButtonText = document.createTextNode("Stop");
 let clearButtonText = document.createTextNode("Clear");
 
 let colorRange = document.createElement("input")
+let intervalRange = document.createElement("input")
 
 Object.assign(canvas, { className: "canvas scene", width, height });
 Object.assign(startButton, { className: "button start-button"});
 Object.assign(stopButton, { className: "button stop-button"});
 Object.assign(clearButton, { className: "button clear-button"});
+Object.assign(mainContainer, { className: "container main-container" });
+Object.assign(buttonContainer, { className: "container button-container" });
 Object.assign(colorRange, {
 	className: "range color-range",
 	type: "range",
@@ -27,9 +30,14 @@ Object.assign(colorRange, {
 	step: "10",
 	value: "255"
 });
-
-Object.assign(mainContainer, { className: "container main-container" });
-Object.assign(buttonContainer, { className: "container button-container" });
+Object.assign(intervalRange, {
+	className: "range interval-range",
+	type: "range",
+	min: "20",
+	max: "600",
+	step: "10",
+	value: "70"
+});
 
 startButton.appendChild(startButtonText);
 stopButton.appendChild(stopButtonText);
@@ -38,13 +46,12 @@ buttonContainer.appendChild(startButton);
 buttonContainer.appendChild(stopButton);
 buttonContainer.appendChild(clearButton);
 buttonContainer.appendChild(colorRange);
+buttonContainer.appendChild(intervalRange);
 
 mainContainer.appendChild(canvas);
 mainContainer.appendChild(buttonContainer);
 
 document.body.appendChild(mainContainer);
-
-let imageData = new ImageData(10, 10);
 
 let ctx = canvas.getContext("2d");
 let output = ctx.createImageData(canvas.width, canvas.height);
@@ -52,41 +59,54 @@ let length = output.data.length;
 
 let range = colorRange.value;
 
-let interval = null;
+let intervalID = null;
+let interval = 60;
+
 
 startButton.onclick = () => {
-	if (!interval) {
-		interval = setInterval(() => {
+	if (!intervalID) {
+		intervalID = setInterval(() => {
 			for (var i = 0; i < length; i++) {
 				output.data[i] = Math.round(255 - range * Math.random());
 			}
 			ctx.putImageData(output, 0, 0);
-		}, 60);
+		}, interval);
 	}
 }
 
 
 stopButton.onclick = () => {
-	clearInterval(interval);
-	interval = null;
+	clearInterval(intervalID);
+	intervalID = null;
 }
 
 
 clearButton.onclick = () => {
-	clearInterval(interval);
-	interval = null;
+	clearInterval(intervalID);
+	intervalID = null;
 	for (var i = 0; i < length; i++) {
 		output.data[i] = 255;
 	}
 	ctx.putImageData(output, 0, 0);
 }
 
+
 colorRange.oninput = () => {
 	range = colorRange.value;
 }
 
 
-console.log(imageData);
+intervalRange.oninput = () => {
+	interval = intervalRange.value;
+	clearInterval(intervalID);
+	intervalID = setInterval(() => {
+		for (var i = 0; i < length; i++) {
+			output.data[i] = Math.round(255 - range * Math.random());
+		}
+		ctx.putImageData(output, 0, 0);
+	}, interval);
+}
+
 console.log(ctx);
 
 
