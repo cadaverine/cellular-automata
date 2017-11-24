@@ -28,13 +28,47 @@ let output = ctx.createImageData(canvas.width, canvas.height);
 let length = output.data.length;
 
 
-let interval = setInterval(() => {
-	for (var i = 0; i < length; i++) {
-		output.data[i] = Math.round(255 * Math.random());
-	}
-	ctx.putImageData(output, 0, 0);
-}, 60);
+// let interval = setInterval(() => {
+// 	for (var i = 0; i < length; i++) {
+// 		output.data[i] = Math.round(255 * Math.random());
+// 	}
+// 	ctx.putImageData(output, 0, 0);
+// }, 60);
+
+let interval;
+
+startButton.onclick = (interval) => {
+	interval = setInterval(() => {
+		for (var i = 0; i < length; i++) {
+			output.data[i] = Math.round(255 * Math.random());
+		}
+		ctx.putImageData(output, 0, 0);
+	}, 60);
+}
+
+
+stopButton.onclick = (interval) => {
+	clearInterval(interval.id); // не работает (undefined)
+}
 
 
 console.log(imageData);
 console.log(ctx);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
