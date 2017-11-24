@@ -2,22 +2,24 @@ const width = 800;
 const height = 400;
 
 let canvas = document.createElement("canvas");
+let buttonContainer = document.createElement("div");
 let startButton = document.createElement("button");
 let stopButton = document.createElement("button");
+let startButtonText = document.createTextNode("Start");
+let stopButtonText = document.createTextNode("Stop");
 
 Object.assign(canvas, { className: "canvas scene", width, height });
 Object.assign(startButton, { className: "button start-button"});
 Object.assign(stopButton, { className: "button stop-button"});
-
-let startButtonText = document.createTextNode("Start");
-let stopButtonText = document.createTextNode("Stop");
+Object.assign(buttonContainer, { className: "container button-container" });
 
 startButton.appendChild(startButtonText);
 stopButton.appendChild(stopButtonText);
-
+buttonContainer.appendChild(startButton);
+buttonContainer.appendChild(stopButton);
 document.body.appendChild(canvas);
-document.body.appendChild(startButton);
-document.body.appendChild(stopButton);
+document.body.appendChild(buttonContainer);
+
 
 
 let imageData = new ImageData(10, 10);
