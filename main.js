@@ -110,19 +110,19 @@ console.log(ctx);
 
 
 board = new Board(canvas, 50);
-console.log(board.currentMatrix);
+// console.log(board.currentMatrix);
 
 board.setRandom();
 
 console.log(board.currentMatrix);
-console.time();
-board.nextStep();
-console.timeEnd()
-console.log(board.currentMatrix);
-console.time();
-board.nextStep();
-console.timeEnd()
-console.log(board.currentMatrix);
+// console.time();
+// board.nextStep();
+// console.timeEnd()
+// console.log(board.currentMatrix);
+// console.time();
+// board.nextStep();
+// console.timeEnd()
+// console.log(board.currentMatrix);
 
 
 
