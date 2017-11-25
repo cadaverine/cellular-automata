@@ -112,17 +112,18 @@ console.log(ctx);
 board = new Board(canvas, 50);
 // console.log(board.currentMatrix);
 
-board.setRandom();
+board.setRandom(0.6);
 
-console.log(board.currentMatrix);
-// console.time();
-// board.nextStep();
-// console.timeEnd()
+console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
 // console.log(board.currentMatrix);
 // console.time();
-// board.nextStep();
+board.nextStep();
 // console.timeEnd()
-// console.log(board.currentMatrix);
+console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
+// console.time();
+board.nextStep();
+// console.timeEnd()
+console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
 
 
 

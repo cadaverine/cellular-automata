@@ -9,10 +9,10 @@ class Board {
 	}
 
 	// add jamming index
-	setRandom() {
+	setRandom(jamming) {
 		for(let i = 0; i < this.width; i++) {
 			for(let j = 0; j < this.height; j++) {
-				this.currentMatrix[i][j] = Math.round(Math.random());
+				this.currentMatrix[i][j] = Math.round(jamming * Math.random());
 			}
 		}
 	}
@@ -47,7 +47,7 @@ class Board {
 								currentMatrix[i    ][j + 1] +
 								currentMatrix[i + 1][j + 1];
 
-				this.__setCurrent(accum, i, j);
+				this.__setNext(accum, i, j);
 			}
 		}
 
@@ -60,7 +60,7 @@ class Board {
 								 currentMatrix[i    ][j + 1] +
 								 currentMatrix[i + 1][j + 1];
 
-			this.__setCurrent(accumTop, i, j);
+			this.__setNext(accumTop, i, j);
 
 			j = height - 1;
 			accumBottom = currentMatrix[i - 1][j    ] +
@@ -69,7 +69,7 @@ class Board {
 										currentMatrix[i    ][j - 1] +
 										currentMatrix[i + 1][j - 1];
 
-			this.__setCurrent(accumBottom, i, j);
+			this.__setNext(accumBottom, i, j);
 		}
 
 		for(let j = 1; j < height - 1; j++) {
@@ -80,7 +80,7 @@ class Board {
 									currentMatrix[i + 1][j    ] +
 									currentMatrix[i + 1][j + 1];
 
-			this.__setCurrent(accumLeft, i, j);
+			this.__setNext(accumLeft, i, j);
 
 			i = width - 1;
 			accumRight = currentMatrix[i    ][j - 1] +
@@ -89,7 +89,7 @@ class Board {
 									 currentMatrix[i - 1][j    ] +
 									 currentMatrix[i - 1][j + 1];
 
-			this.__setCurrent(accumRight, i, j);
+			this.__setNext(accumRight, i, j);
 		}
 
 		// corners
@@ -97,25 +97,25 @@ class Board {
 		leftTop = currentMatrix[i + 1][j    ] +
 							currentMatrix[i + 1][j + 1] +
 							currentMatrix[i    ][j + 1];
-		this.__setCurrent(leftTop, i, j);
+		this.__setNext(leftTop, i, j);
 
 		i = width - 1, j = 0;
 		rightTop = currentMatrix[i - 1][j    ] +
 						   currentMatrix[i - 1][j + 1] +
 						   currentMatrix[i    ][j + 1];
-		this.__setCurrent(rightTop, i, j);
+		this.__setNext(rightTop, i, j);
 
 		i = 0, j = height - 1;
 		leftBottom = currentMatrix[i + 1][j    ] +
 						   	 currentMatrix[i + 1][j - 1] +
 						   	 currentMatrix[i    ][j - 1];
-		this.__setCurrent(leftBottom, i, j);
+		this.__setNext(leftBottom, i, j);
 
 		i = width - 1, j = height - 1;
 		rightBottom = currentMatrix[i - 1][j    ] +
 						   	  currentMatrix[i - 1][j - 1] +
 						   	  currentMatrix[i    ][j - 1];
-		this.__setCurrent(rightBottom, i, j);
+		this.__setNext(rightBottom, i, j);
 
 
 		this.currentMatrix = nextMatrix;
@@ -123,8 +123,9 @@ class Board {
 		return this.currentMatrix;
 	}
 
-
-	// 'Private methods'
+	// ***********************
+	// ***'Private methods'***
+	// ***********************
 
 	__createMatrix(width, height) {
 		let matrix = []
@@ -132,14 +133,13 @@ class Board {
 			matrix.push([]);
 			for(let j = 0; j < height; j++) {
 				matrix[i].push(0);
-				console.log(matrix[i]);
 			}
 		}
 		return matrix;
 	}
 
 	// change to __setNext
-	__setCurrent(accum, i, j) {
+	__setNext(accum, i, j) {
 		if (this.currentMatrix[i][j] === 1) {
 			if (accum >= 2) {
 				this.nextMatrix[i][j] = 1;
