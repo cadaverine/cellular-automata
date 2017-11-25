@@ -116,14 +116,14 @@ board.setRandom(0.6);
 
 console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
 // console.log(board.currentMatrix);
-// console.time();
+console.time();
 board.nextStep();
-// console.timeEnd()
+console.timeEnd()
 console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
 // console.time();
-board.nextStep();
+// board.nextStep();
 // console.timeEnd()
-console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
+// console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
 
 
 

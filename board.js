@@ -1,18 +1,17 @@
 class Board {
 	constructor(canvas, step) {
 		this.step = step;
-		// this.width = canvas.width / step;
-		this.width = 10; // временный тест
+		this.width = canvas.width / step;
 		this.height = canvas.height / step;
 		this.currentMatrix = this.__createMatrix(this.width, this.height);
 		this.nextMatrix = this.__createMatrix(this.width, this.height);
 	}
 
-	// add jamming index
-	setRandom(jamming) {
+
+	setRandom(density) {
 		for(let i = 0; i < this.width; i++) {
 			for(let j = 0; j < this.height; j++) {
-				this.currentMatrix[i][j] = Math.round(jamming * Math.random());
+				this.currentMatrix[i][j] = Math.round(density * Math.random());
 			}
 		}
 	}
