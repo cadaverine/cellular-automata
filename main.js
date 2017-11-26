@@ -109,6 +109,9 @@ intervalRange.oninput = () => {
 console.log(ctx);
 
 
+let worker = new Worker("board.js");
+
+
 board = new Board(canvas, 50);
 // console.log(board.currentMatrix);
 
