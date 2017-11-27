@@ -23,20 +23,20 @@ Object.assign(clearButton, { className: "button clear-button"});
 Object.assign(mainContainer, { className: "container main-container" });
 Object.assign(buttonContainer, { className: "container button-container" });
 Object.assign(colorRange, {
-	className: "range color-range",
-	type: "range",
-	min: "0",
-	max: "255",
-	step: "10",
-	value: "255"
+  className: "range color-range",
+  type: "range",
+  min: "0",
+  max: "255",
+  step: "10",
+  value: "255"
 });
 Object.assign(intervalRange, {
-	className: "range interval-range",
-	type: "range",
-	min: "20",
-	max: "600",
-	step: "10",
-	value: "70"
+  className: "range interval-range",
+  type: "range",
+  min: "20",
+  max: "600",
+  step: "10",
+  value: "70"
 });
 
 startButton.appendChild(startButtonText);
@@ -81,50 +81,50 @@ let intervalID = null;
 let interval = 60;
 
 startButton.onclick = () => {
-	if (!intervalID) {
-		intervalID = setInterval(() => {
-			step = board.nextStep();
-			let maker = new ImageDataMaker(width, height, board.currentMatrix);
-			let data = maker.createImageData();
-			ctx.putImageData(data, 0, 0);
-		}, interval);
-	}
+  if (!intervalID) {
+    intervalID = setInterval(() => {
+      step = board.nextStep();
+      let maker = new ImageDataMaker(width, height, board.currentMatrix);
+      let data = maker.createImageData();
+      ctx.putImageData(data, 0, 0);
+    }, interval);
+  }
 }
 
 
 stopButton.onclick = () => {
-	clearInterval(intervalID);
-	intervalID = null;
+  clearInterval(intervalID);
+  intervalID = null;
 }
 
 
 clearButton.onclick = () => {
-	clearInterval(intervalID);
-	intervalID = null;
-	for (var i = 0; i < length; i++) {
-		output.data[i] = 255;
-	}
-	let maker = new ImageDataMaker(width, height, board.currentMatrix);
-	let data = maker.createImageData();
-	board.setRandom(0.6);
-	ctx.putImageData(output, 0, 0);
+  clearInterval(intervalID);
+  intervalID = null;
+  for (var i = 0; i < length; i++) {
+    output.data[i] = 255;
+  }
+  let maker = new ImageDataMaker(width, height, board.currentMatrix);
+  let data = maker.createImageData();
+  board.setRandom(0.6);
+  ctx.putImageData(output, 0, 0);
 }
 
 
 colorRange.oninput = () => {
-	range = colorRange.value;
+  range = colorRange.value;
 }
 
 
 intervalRange.oninput = () => {
-	interval = intervalRange.value;
-	clearInterval(intervalID);
-	intervalID = setInterval(() => {
-		board.nextStep();
-		let maker = new ImageDataMaker(width, height, board.currentMatrix);
-		let data = maker.createImageData();
-		ctx.putImageData(data, 0, 0);
-	}, interval);
+  interval = intervalRange.value;
+  clearInterval(intervalID);
+  intervalID = setInterval(() => {
+    board.nextStep();
+    let maker = new ImageDataMaker(width, height, board.currentMatrix);
+    let data = maker.createImageData();
+    ctx.putImageData(data, 0, 0);
+  }, interval);
 }
 
 
