@@ -1,5 +1,5 @@
-const width = 600;
-const height = 400;
+const width = 300;
+const height = 150;
 
 let mainContainer = document.createElement("div");
 
@@ -52,23 +52,41 @@ mainContainer.appendChild(buttonContainer);
 document.body.appendChild(mainContainer);
 
 
+canvas.style.width = "600px";
+canvas.style.height = "300px";
+
+
+
 let ctx = canvas.getContext("2d");
 let output = ctx.createImageData(canvas.width, canvas.height);
 let length = output.data.length;
 
 let range = colorRange.value;
 
+
+// let worker = new Worker("board.js");
+
+board = new Board(canvas, 1);
+board.setRandom(0.6);
+
+
+maker = new ImageDataMaker(width, height, board.currentMatrix);
+data = maker.createImageData();
+
+ctx.putImageData(data, 0, 0);
+
+
+
 let intervalID = null;
 let interval = 60;
-
 
 startButton.onclick = () => {
 	if (!intervalID) {
 		intervalID = setInterval(() => {
-			for (var i = 0; i < length; i++) {
-				output.data[i] = Math.round(255 - range * Math.random());
-			}
-			ctx.putImageData(output, 0, 0);
+			step = board.nextStep();
+			let maker = new ImageDataMaker(width, height, board.currentMatrix);
+			let data = maker.createImageData();
+			ctx.putImageData(data, 0, 0);
 		}, interval);
 	}
 }
@@ -86,6 +104,9 @@ clearButton.onclick = () => {
 	for (var i = 0; i < length; i++) {
 		output.data[i] = 255;
 	}
+	let maker = new ImageDataMaker(width, height, board.currentMatrix);
+	let data = maker.createImageData();
+	board.setRandom(0.6);
 	ctx.putImageData(output, 0, 0);
 }
 
@@ -99,43 +120,12 @@ intervalRange.oninput = () => {
 	interval = intervalRange.value;
 	clearInterval(intervalID);
 	intervalID = setInterval(() => {
-		for (var i = 0; i < length; i++) {
-			output.data[i] = Math.round(255 - range * Math.random());
-		}
-		ctx.putImageData(output, 0, 0);
+		board.nextStep();
+		let maker = new ImageDataMaker(width, height, board.currentMatrix);
+		let data = maker.createImageData();
+		ctx.putImageData(data, 0, 0);
 	}, interval);
 }
-
-console.log(ctx);
-
-
-let worker = new Worker("board.js");
-
-
-board = new Board(canvas, 50);
-// console.log(board.currentMatrix);
-
-board.setRandom(0.6);
-
-console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
-// console.log(board.currentMatrix);
-console.time();
-board.nextStep();
-console.timeEnd()
-console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
-// console.time();
-// board.nextStep();
-// console.timeEnd()
-// console.log(JSON.parse(JSON.stringify(board.currentMatrix)));
-
-
-
-
-
-
-
-
-
 
 
 
