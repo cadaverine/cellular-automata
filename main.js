@@ -65,7 +65,7 @@ let range = colorRange.value;
 // let worker = new Worker("board.js");
 
 board = new Board(canvas, 1);
-board.setRandom(0.6);
+board.setRandom(0.9);
 
 
 maker = new ImageDataMaker(width, height, board.currentMatrix);
