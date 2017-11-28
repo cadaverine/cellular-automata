@@ -1,5 +1,5 @@
-const width = 300;
-const height = 150;
+const width = 600;
+const height = 300;
 
 let mainContainer = document.createElement("div");
 
@@ -17,6 +17,9 @@ let colorRange = document.createElement("input")
 let intervalRange = document.createElement("input")
 
 Object.assign(canvas, { className: "canvas scene", width, height });
+canvas.style.width = "1200px";
+canvas.style.height = "600px";
+
 Object.assign(startButton, { className: "button start-button"});
 Object.assign(stopButton, { className: "button stop-button"});
 Object.assign(clearButton, { className: "button clear-button"});
@@ -33,10 +36,10 @@ Object.assign(colorRange, {
 Object.assign(intervalRange, {
   className: "range interval-range",
   type: "range",
-  min: "20",
+  min: "10",
   max: "600",
   step: "10",
-  value: "70"
+  value: "20"
 });
 
 startButton.appendChild(startButtonText);
@@ -45,16 +48,11 @@ clearButton.appendChild(clearButtonText);
 buttonContainer.appendChild(startButton);
 buttonContainer.appendChild(stopButton);
 buttonContainer.appendChild(clearButton);
-buttonContainer.appendChild(colorRange);
+// buttonContainer.appendChild(colorRange); // Изменить функционал
 buttonContainer.appendChild(intervalRange);
 mainContainer.appendChild(canvas);
 mainContainer.appendChild(buttonContainer);
 document.body.appendChild(mainContainer);
-
-
-canvas.style.width = "600px";
-canvas.style.height = "300px";
-
 
 
 let ctx = canvas.getContext("2d");
@@ -78,7 +76,8 @@ ctx.putImageData(data, 0, 0);
 
 
 let intervalID = null;
-let interval = 60;
+let interval = intervalRange.value;
+
 
 startButton.onclick = () => {
   if (!intervalID) {

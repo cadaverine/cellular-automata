@@ -7,7 +7,8 @@ class ImageDataMaker {
     this.height = height;
   }
 
-  createImageData(r = 100, g = 100, b = 100, a = 50) {
+
+  createImageData(r = 50, g = 50, b = 50, a = 100) {
     let width = this.matrix.length;
     let height = this.matrix[0].length;
     let array = this.array;
@@ -15,12 +16,19 @@ class ImageDataMaker {
     let colors = 4;
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
-        let num = matrix[i][j];
         let k = j * colors + i * height * colors;
-        array[    k] = r * num;
-        array[1 + k] = g * num;
-        array[2 + k] = b * num;
-        array[3 + k] = a * num;
+        if (matrix[i][j] > 0) {
+          array[    k] = r;
+          array[1 + k] = g;
+          array[2 + k] = b;
+          array[3 + k] = a;
+        }
+        else {
+          array[    k] = 0;
+          array[1 + k] = 0;
+          array[2 + k] = 0;
+          array[3 + k] = 0;
+        }
       }
     }
 

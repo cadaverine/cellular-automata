@@ -140,7 +140,7 @@ class Board {
   // change to __setNext
   __setNext(accum, i, j) {
     if (this.currentMatrix[i][j] === 1) {
-      if (accum >= 2) {
+      if (accum == 2 || accum == 3) {
         this.nextMatrix[i][j] = 1;
       }
       else {
@@ -148,7 +148,7 @@ class Board {
       }
     }
     else {
-      if (accum >= 3) {
+      if (accum == 3) {
         this.nextMatrix[i][j] = 1;
       }
       else {
