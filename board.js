@@ -29,8 +29,10 @@ class Board {
     let leftBottom = 0;
     let rightBottom = 0;
 
-    let width = this.width;
-    let height = this.height;
+    // let width = this.width;
+    // let height = this.height;
+    let width = this.height;
+    let height = this.width;
     let nextMatrix = this.nextMatrix;
     let currentMatrix = this.currentMatrix;
 
@@ -53,44 +55,61 @@ class Board {
     // top-bottom, righn-left sides
     for(let i = 1; i < width - 1; i++) {
       let j = 0;
+      let h = height - 1;
       accumTop = currentMatrix[i - 1][j    ] +
                  currentMatrix[i + 1][j    ] +
                  currentMatrix[i - 1][j + 1] +
                  currentMatrix[i    ][j + 1] +
-                 currentMatrix[i + 1][j + 1];
+                 currentMatrix[i + 1][j + 1] +
+                 currentMatrix[i - 1][h    ] +
+                 currentMatrix[i    ][h    ] +
+                 currentMatrix[i + 1][h    ];
 
       this.__setNext(accumTop, i, j);
 
       j = height - 1;
+      h = 0
       accumBottom = currentMatrix[i - 1][j    ] +
                     currentMatrix[i + 1][j    ] +
                     currentMatrix[i - 1][j - 1] +
                     currentMatrix[i    ][j - 1] +
-                    currentMatrix[i + 1][j - 1];
+                    currentMatrix[i + 1][j - 1] +
+                    currentMatrix[i - 1][h    ] +
+                    currentMatrix[i    ][h    ] +
+                    currentMatrix[i + 1][h    ];
 
       this.__setNext(accumBottom, i, j);
     }
 
     for(let j = 1; j < height - 1; j++) {
       let i = 0;
+      let w = width - 1;
       accumLeft = currentMatrix[i    ][j - 1] +
                   currentMatrix[i    ][j + 1] +
                   currentMatrix[i + 1][j - 1] +
                   currentMatrix[i + 1][j    ] +
-                  currentMatrix[i + 1][j + 1];
+                  currentMatrix[i + 1][j + 1] +
+                  currentMatrix[w    ][j - 1] +
+                  currentMatrix[w    ][j    ] +
+                  currentMatrix[w    ][j + 1];
 
       this.__setNext(accumLeft, i, j);
 
       i = width - 1;
+      w = 0;
       accumRight = currentMatrix[i    ][j - 1] +
                    currentMatrix[i    ][j + 1] +
                    currentMatrix[i - 1][j - 1] +
                    currentMatrix[i - 1][j    ] +
-                   currentMatrix[i - 1][j + 1];
+                   currentMatrix[i - 1][j + 1] +
+                   currentMatrix[w    ][j - 1] +
+                   currentMatrix[w    ][j    ] +
+                   currentMatrix[w    ][j + 1];
 
       this.__setNext(accumRight, i, j);
     }
 
+    // Обновить углы
     // corners
     let i = 0, j = 0;
     leftTop = currentMatrix[i + 1][j    ] +

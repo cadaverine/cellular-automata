@@ -3,8 +3,8 @@ const height = 300;
 
 let mainContainer = document.createElement("div");
 
+let title = document.createElement("div");
 let canvas = document.createElement("canvas");
-
 let buttonContainer = document.createElement("div");
 let startButton = document.createElement("button");
 let stopButton = document.createElement("button");
@@ -12,13 +12,16 @@ let clearButton = document.createElement("button");
 let startButtonText = document.createTextNode("Start");
 let stopButtonText = document.createTextNode("Stop");
 let clearButtonText = document.createTextNode("Clear");
-
 let colorRange = document.createElement("input")
 let intervalRange = document.createElement("input")
+
 
 Object.assign(canvas, { className: "canvas scene", width, height });
 canvas.style.width = "1200px";
 canvas.style.height = "600px";
+
+Object.assign(title, { className: "title"});
+title.innerHTML = "Conway's game of life."
 
 Object.assign(startButton, { className: "button start-button"});
 Object.assign(stopButton, { className: "button stop-button"});
@@ -50,6 +53,7 @@ buttonContainer.appendChild(stopButton);
 buttonContainer.appendChild(clearButton);
 // buttonContainer.appendChild(colorRange); // Изменить функционал
 buttonContainer.appendChild(intervalRange);
+mainContainer.appendChild(title);
 mainContainer.appendChild(canvas);
 mainContainer.appendChild(buttonContainer);
 document.body.appendChild(mainContainer);
