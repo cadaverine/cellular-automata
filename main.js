@@ -1,3 +1,20 @@
+// Исправить:
+// 1) Не работает Clear
+// 2) Добавить "Free flight area"
+
+// Пожелания:
+// 1) Добавить алгоритм, который распознает осцилляторы, глайдеры,
+// степперы и прочие стабильные конфигурации
+// 2) Добавить возможность менять масштаб
+// 3) Добавить поддержку других клеточных автоматов (напр. "Steppers")
+// 4) Добавить параметр "возраст": молодость/зрелость/старость
+// 4) Добавить температурную подсветку (зоны активности, затухания...)
+// 5) Создание внешнего вида вынести в класс UI
+// 6) Вынести обсчет матриц в Worker
+// 7) Для обсчета матриц использовать WebAssembly (Rust) ?
+// 8) Добавить возможность задавать произвольные правила
+
+
 const width = 600;
 const height = 300;
 
@@ -11,7 +28,8 @@ let stopButton = document.createElement("button");
 let clearButton = document.createElement("button");
 let startButtonText = document.createTextNode("Start");
 let stopButtonText = document.createTextNode("Stop");
-let clearButtonText = document.createTextNode("Clear");
+// let clearButtonText = document.createTextNode("Clear");
+let clearButtonText = document.createTextNode("Random");
 let colorRange = document.createElement("input")
 let intervalRange = document.createElement("input")
 
@@ -69,7 +87,7 @@ let range = colorRange.value;
 // let worker = new Worker("board.js");
 
 board = new Board(canvas, 1);
-board.setRandom(0.9);
+board.setRandom(.9, .4);
 
 
 maker = new ImageDataMaker(width, height, board.currentMatrix);
@@ -107,10 +125,10 @@ clearButton.onclick = () => {
   for (var i = 0; i < length; i++) {
     output.data[i] = 255;
   }
+  board.setRandom(.9, .4);
   let maker = new ImageDataMaker(width, height, board.currentMatrix);
   let data = maker.createImageData();
-  board.setRandom(0.6);
-  ctx.putImageData(output, 0, 0);
+  ctx.putImageData(data, 0, 0);
 }
 
 
@@ -129,7 +147,5 @@ intervalRange.oninput = () => {
     ctx.putImageData(data, 0, 0);
   }, interval);
 }
-
-
 
 

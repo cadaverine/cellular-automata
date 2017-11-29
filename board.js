@@ -1,16 +1,23 @@
 class Board {
   constructor(canvas, step) {
     this.step = step;
-    this.width = canvas.width / step;
-    this.height = canvas.height / step;
+
+    // need an explanation:
+    this.height = canvas.width / step;
+    this.width = canvas.height / step;
+
     this.currentMatrix = this.__createMatrix(this.width, this.height);
     this.nextMatrix = this.__createMatrix(this.width, this.height);
   }
 
 
-  setRandom(density) {
-    for(let i = 0; i < this.width; i++) {
-      for(let j = 0; j < this.height; j++) {
+  setRandom(density, freeSpace) {
+    let width = this.width;
+    // need an explanation:
+    let height = this.height - this.height * freeSpace;
+
+    for(let i = 0; i < width; i++) {
+      for(let j = 0; j < height; j++) {
         this.currentMatrix[i][j] = Math.round(density * Math.random());
       }
     }
@@ -29,10 +36,8 @@ class Board {
     let leftBottom = 0;
     let rightBottom = 0;
 
-    // let width = this.width;
-    // let height = this.height;
-    let width = this.height;
-    let height = this.width;
+    let width = this.width;
+    let height = this.height;
     let nextMatrix = this.nextMatrix;
     let currentMatrix = this.currentMatrix;
 
@@ -109,7 +114,7 @@ class Board {
       this.__setNext(accumRight, i, j);
     }
 
-    // Обновить углы
+    // need to update
     // corners
     let i = 0, j = 0;
     leftTop = currentMatrix[i + 1][j    ] +
