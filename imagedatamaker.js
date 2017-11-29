@@ -17,11 +17,17 @@ class ImageDataMaker {
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
         let k = j * colors + i * height * colors;
-        if (matrix[i][j] > 0) {
+        if (matrix[i][j] == 1) {
           array[    k] = r;
           array[1 + k] = g;
+          array[2 + k] = 200;
+          array[3 + k] = 100;
+        }
+        else if (matrix[i][j] == 10){
+          array[    k] = 200;
+          array[1 + k] = g;
           array[2 + k] = b;
-          array[3 + k] = a;
+          array[3 + k] = 200;
         }
         else {
           array[    k] = 0;

@@ -6,6 +6,53 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div class="main-container">
+		<div class="title">Cellular automata.</div>
+		<canvas class="canvas scene" width=450 height=225></canvas>
+		<div class="menu-container">
+
+			<div class="rules container">
+				<div class="text">Rules:</div>
+				<select class="select-rules">
+					<option value="conway">Conway</option>
+					<option value="steppers">Steppers</option>
+				</select>
+			</div>
+
+			<div class="fps container">
+				<div class="text">FPS:</div>
+				<div class="fps"></div>
+				<input type="range" class="range interval-range" min=10 max=100 step=5 value=30></input>
+			</div>
+
+			<div class="density container">
+				<div class="text">Density:</div>
+				<div class="density"></div>
+				<input type="range" class="range density-range" min=6 max=12 step=1 value=9></input>
+			</div>
+
+			<div class="free-space container">
+				<div class="text">Free space:</div>
+				<div class="free-space"></div>
+				<input type="range" class="range free-space-range" min=0 max=10 step=1 value=4></input>
+			</div>
+
+			<div class="generation-counter container">
+				<div class="text">Generation: </div>
+				<div class="counter"></div>
+			</div>
+
+			<div class="button-container">
+				<button class="button start-button">Start</button>
+				<button class="button stop-button">Stop</button>
+				<button class="button random-button">Random</button>
+			</div>
+
+		</div>
+	</div>
+
+
+
   <script src="board.js"></script>
   <script src="imagedatamaker.js"></script>
   <script src="main.js"></script>

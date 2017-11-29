@@ -1,7 +1,3 @@
-// Исправить:
-// 1) Не работает Clear
-// 2) Добавить "Free flight area"
-
 
 // Пожелания:
 // 1) Добавить алгоритм, который распознает осцилляторы, глайдеры,
@@ -15,97 +11,44 @@
 // 7) Для обсчета матриц использовать WebAssembly (Rust) ?
 // 8) Добавить возможность задавать произвольные правила
 
+let ruleSelect = document.getElementsByClassName("select-rules")[0];
+let canvas = document.getElementsByClassName("canvas")[0];
+let startButton = document.getElementsByClassName("start-button")[0];
+let stopButton = document.getElementsByClassName("stop-button")[0];
+let randomButton = document.getElementsByClassName("random-button")[0];
+let intervalRange = document.getElementsByClassName("interval-range")[0];
+let densityRange = document.getElementsByClassName("density-range")[0];
+let freeSpaceRange = document.getElementsByClassName("free-space-range")[0];
 
-const width = 600;
-const height = 300;
-
-let mainContainer = document.createElement("div");
-
-let title = document.createElement("div");
-let canvas = document.createElement("canvas");
-let buttonContainer = document.createElement("div");
-let startButton = document.createElement("button");
-let stopButton = document.createElement("button");
-let clearButton = document.createElement("button");
-let startButtonText = document.createTextNode("Start");
-let stopButtonText = document.createTextNode("Stop");
-// let clearButtonText = document.createTextNode("Clear");
-let clearButtonText = document.createTextNode("Random");
-let colorRange = document.createElement("input")
-let intervalRange = document.createElement("input")
-
-
-Object.assign(canvas, { className: "canvas scene", width, height });
-canvas.style.width = "1200px";
-canvas.style.height = "600px";
-
-Object.assign(title, { className: "title"});
-title.innerHTML = "Conway's game of life."
-
-Object.assign(startButton, { className: "button start-button"});
-Object.assign(stopButton, { className: "button stop-button"});
-Object.assign(clearButton, { className: "button clear-button"});
-Object.assign(mainContainer, { className: "container main-container" });
-Object.assign(buttonContainer, { className: "container button-container" });
-Object.assign(colorRange, {
-  className: "range color-range",
-  type: "range",
-  min: "0",
-  max: "255",
-  step: "10",
-  value: "255"
-});
-Object.assign(intervalRange, {
-  className: "range interval-range",
-  type: "range",
-  min: "10",
-  max: "600",
-  step: "10",
-  value: "20"
-});
-
-startButton.appendChild(startButtonText);
-stopButton.appendChild(stopButtonText);
-clearButton.appendChild(clearButtonText);
-buttonContainer.appendChild(startButton);
-buttonContainer.appendChild(stopButton);
-buttonContainer.appendChild(clearButton);
-// buttonContainer.appendChild(colorRange); // Изменить функционал
-buttonContainer.appendChild(intervalRange);
-mainContainer.appendChild(title);
-mainContainer.appendChild(canvas);
-mainContainer.appendChild(buttonContainer);
-document.body.appendChild(mainContainer);
-
+let width = canvas.width;
+let height = canvas.height;
 
 let ctx = canvas.getContext("2d");
 let output = ctx.createImageData(canvas.width, canvas.height);
 let length = output.data.length;
 
-let range = colorRange.value;
+let rule = ruleSelect.value;
+let interval = intervalRange.value;
+let density = densityRange.value * 0.1;
+let freespace = freeSpaceRange.value * 0.1;
 
 
-// let worker = new Worker("board.js");
-
-board = new Board(canvas, 1);
-board.setRandom(.9, .4);
-
-
-maker = new ImageDataMaker(width, height, board.currentMatrix);
-data = maker.createImageData();
-
+let board = new Board(canvas, 1);
+board.setRandom(density, freespace);
+let maker = new ImageDataMaker(width, height, board.currentMatrix);
+let data = maker.createImageData();
 ctx.putImageData(data, 0, 0);
 
 
 
 let intervalID = null;
-let interval = intervalRange.value;
 
 
 startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
-      step = board.nextStep();
+      rule = ruleSelect.value;
+      step = board.nextStep(rule);
       let maker = new ImageDataMaker(width, height, board.currentMatrix);
       let data = maker.createImageData();
       ctx.putImageData(data, 0, 0);
@@ -120,21 +63,18 @@ stopButton.onclick = () => {
 }
 
 
-clearButton.onclick = () => {
+randomButton.onclick = () => {
   clearInterval(intervalID);
   intervalID = null;
   for (var i = 0; i < length; i++) {
     output.data[i] = 255;
   }
-  board.setRandom(.9, .4);
+  density = densityRange.value * 0.1;
+  freespace = freeSpaceRange.value * 0.1;
+  board.setRandom(density, freespace);
   let maker = new ImageDataMaker(width, height, board.currentMatrix);
   let data = maker.createImageData();
   ctx.putImageData(data, 0, 0);
-}
-
-
-colorRange.oninput = () => {
-  range = colorRange.value;
 }
 
 
@@ -142,7 +82,8 @@ intervalRange.oninput = () => {
   interval = intervalRange.value;
   clearInterval(intervalID);
   intervalID = setInterval(() => {
-    board.nextStep();
+    rule = ruleSelect.value;
+    step = board.nextStep(rule);
     let maker = new ImageDataMaker(width, height, board.currentMatrix);
     let data = maker.createImageData();
     ctx.putImageData(data, 0, 0);

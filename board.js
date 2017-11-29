@@ -8,23 +8,34 @@ class Board {
 
     this.currentMatrix = this.__createMatrix(this.width, this.height);
     this.nextMatrix = this.__createMatrix(this.width, this.height);
+
+    this.rules = {
+    	conway: this.__conway,
+    	steppers: this.__steppers
+    }
   }
 
 
   setRandom(density, freeSpace) {
     let width = this.width;
     // need an explanation:
-    let height = this.height - this.height * freeSpace;
+    freeSpace = this.height * freeSpace;
+    let height = this.height - freeSpace;
 
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
         this.currentMatrix[i][j] = Math.round(density * Math.random());
       }
     }
+    for(let i = 0; i < width; i++) {
+      for(let j = height; j < height + freeSpace; j++) {
+        this.currentMatrix[i][j] = 0;
+      }
+    }
   }
 
 
-  nextStep() {
+  nextStep(rule = "steppers") {
     let accum = 0;
     let accumTop = 0;
     let accumBottom = 0
@@ -41,6 +52,8 @@ class Board {
     let nextMatrix = this.nextMatrix;
     let currentMatrix = this.currentMatrix;
 
+    let setNext = this.rules[rule];
+
     // center
     for(let i = 1; i < width - 1; i++) {
       for(let j = 1; j < height - 1; j++) {
@@ -53,7 +66,7 @@ class Board {
                 currentMatrix[i    ][j + 1] +
                 currentMatrix[i + 1][j + 1];
 
-        this.__setNext(accum, i, j);
+        setNext(this, accum, i, j);
       }
     }
 
@@ -70,7 +83,7 @@ class Board {
                  currentMatrix[i    ][h    ] +
                  currentMatrix[i + 1][h    ];
 
-      this.__setNext(accumTop, i, j);
+      setNext(this, accumTop, i, j);
 
       j = height - 1;
       h = 0
@@ -83,7 +96,7 @@ class Board {
                     currentMatrix[i    ][h    ] +
                     currentMatrix[i + 1][h    ];
 
-      this.__setNext(accumBottom, i, j);
+      setNext(this, accumBottom, i, j);
     }
 
     for(let j = 1; j < height - 1; j++) {
@@ -98,7 +111,7 @@ class Board {
                   currentMatrix[w    ][j    ] +
                   currentMatrix[w    ][j + 1];
 
-      this.__setNext(accumLeft, i, j);
+      setNext(this, accumLeft, i, j);
 
       i = width - 1;
       w = 0;
@@ -111,7 +124,7 @@ class Board {
                    currentMatrix[w    ][j    ] +
                    currentMatrix[w    ][j + 1];
 
-      this.__setNext(accumRight, i, j);
+      setNext(this, accumRight, i, j);
     }
 
     // need to update
@@ -120,25 +133,25 @@ class Board {
     leftTop = currentMatrix[i + 1][j    ] +
               currentMatrix[i + 1][j + 1] +
               currentMatrix[i    ][j + 1];
-    this.__setNext(leftTop, i, j);
+    setNext(this, leftTop, i, j);
 
     i = width - 1, j = 0;
     rightTop = currentMatrix[i - 1][j    ] +
                currentMatrix[i - 1][j + 1] +
                currentMatrix[i    ][j + 1];
-    this.__setNext(rightTop, i, j);
+    setNext(this, rightTop, i, j);
 
     i = 0, j = height - 1;
     leftBottom = currentMatrix[i + 1][j    ] +
                  currentMatrix[i + 1][j - 1] +
                  currentMatrix[i    ][j - 1];
-    this.__setNext(leftBottom, i, j);
+    setNext(this, leftBottom, i, j);
 
     i = width - 1, j = height - 1;
     rightBottom = currentMatrix[i - 1][j    ] +
                   currentMatrix[i - 1][j - 1] +
                   currentMatrix[i    ][j - 1];
-    this.__setNext(rightBottom, i, j);
+    setNext(this, rightBottom, i, j);
 
 
     this.currentMatrix = nextMatrix;
@@ -161,23 +174,50 @@ class Board {
     return matrix;
   }
 
-  // change to __setNext
-  __setNext(accum, i, j) {
-    if (this.currentMatrix[i][j] === 1) {
+
+  __conway(_this, accum, i, j) {
+    if (_this.currentMatrix[i][j] === 1) {
       if (accum == 2 || accum == 3) {
-        this.nextMatrix[i][j] = 1;
+        _this.nextMatrix[i][j] = 1;
       }
       else {
-        this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[i][j] = 0;
       }
     }
     else {
       if (accum == 3) {
-        this.nextMatrix[i][j] = 1;
+        _this.nextMatrix[i][j] = 1;
       }
       else {
-        this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[i][j] = 0;
       }
     }
   }
+
+  __steppers(_this, accum, i, j) {
+  	let oldNum = accum % 10;
+  	let youngNum = Math.floor(accum / 10);
+  	let neighbours = oldNum + youngNum;
+
+    if (_this.currentMatrix[i][j] === 10) {
+    	_this.nextMatrix[i][j] = 1;
+    }
+    else if (_this.currentMatrix[i][j] === 1) {
+    	if ((neighbours == 2 || neighbours == 3) && youngNum <= 1) {
+	    	_this.nextMatrix[i][j] = 1;
+    	}
+    	else {
+	    	_this.nextMatrix[i][j] = 0;
+    	}
+    }
+    else {
+      if (neighbours == 3 && oldNum >= 2) {
+        _this.nextMatrix[i][j] = 10;
+      }
+      else {
+        _this.nextMatrix[i][j] = 0;
+      }
+    }
+  }
+
 }
