@@ -16,11 +16,10 @@ class Board {
   }
 
 
-  setRandom(density, freeSpace) {
+  setRandom(density, fullness) {
     let width = this.width;
-    // need an explanation:
-    freeSpace = this.height * freeSpace;
-    let height = this.height - freeSpace;
+    let height = this.height * fullness;
+    let reminder = this.height - height
 
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
@@ -28,7 +27,7 @@ class Board {
       }
     }
     for(let i = 0; i < width; i++) {
-      for(let j = height; j < height + freeSpace; j++) {
+      for(let j = height; j < height + reminder; j++) {
         this.currentMatrix[i][j] = 0;
       }
     }

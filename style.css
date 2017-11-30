@@ -13,6 +13,11 @@
   text-align: center;
 }
 
+
+.button {
+  width: 28%;
+  margin: 0 2%;
+}
 /*.button {
   width: 100px;
   height: 50px;
@@ -35,7 +40,7 @@
 
 .canvas {
   width: 900px;
-  height: 450px;
+  height: 600px;
   display: inline-block;
   border-radius: 2px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -51,8 +56,36 @@
   vertical-align: top;
   width: 300px;
   border: 1px solid darkgray;
+  padding-top: 7px;
+}
+
+.button-container {
+  margin-bottom: 2%;
+}
+
+.container {
+  height: 40px;
 }
 
 .container > * {
   display: inline-block;
 }
+
+.text {
+  width: 100px;
+  margin-left: 2%;
+}
+
+.counter {
+  height: 10px;
+  border: 1px solid darkgray;
+  min-width: 60px;
+  height: 24px;
+  vertical-align: top;
+  border-radius: 4px;
+  text-align: right;
+  margin-left: 6px;
+}
+
+
+

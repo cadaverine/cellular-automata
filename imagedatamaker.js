@@ -27,7 +27,7 @@ class ImageDataMaker {
           array[    k] = 200;
           array[1 + k] = g;
           array[2 + k] = b;
-          array[3 + k] = 200;
+          array[3 + k] = 150;
         }
         else {
           array[    k] = 0;

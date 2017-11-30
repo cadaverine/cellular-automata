@@ -18,7 +18,8 @@ let stopButton = document.getElementsByClassName("stop-button")[0];
 let randomButton = document.getElementsByClassName("random-button")[0];
 let intervalRange = document.getElementsByClassName("interval-range")[0];
 let densityRange = document.getElementsByClassName("density-range")[0];
-let freeSpaceRange = document.getElementsByClassName("free-space-range")[0];
+let fullnessRange = document.getElementsByClassName("free-space-range")[0];
+let counter = document.getElementsByClassName("counter")[0];
 
 let width = canvas.width;
 let height = canvas.height;
@@ -30,11 +31,11 @@ let length = output.data.length;
 let rule = ruleSelect.value;
 let interval = intervalRange.value;
 let density = densityRange.value * 0.1;
-let freespace = freeSpaceRange.value * 0.1;
+let fullness = fullnessRange.value * 0.1;
 
 
 let board = new Board(canvas, 1);
-board.setRandom(density, freespace);
+board.setRandom(density, fullness);
 let maker = new ImageDataMaker(width, height, board.currentMatrix);
 let data = maker.createImageData();
 ctx.putImageData(data, 0, 0);
@@ -42,16 +43,19 @@ ctx.putImageData(data, 0, 0);
 
 
 let intervalID = null;
-
+let generation = 0;
+counter.textContent = generation;
 
 startButton.onclick = () => {
   if (!intervalID) {
+    generation = 0;
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
       step = board.nextStep(rule);
       let maker = new ImageDataMaker(width, height, board.currentMatrix);
       let data = maker.createImageData();
       ctx.putImageData(data, 0, 0);
+      counter.textContent = ++generation;
     }, interval);
   }
 }
@@ -70,24 +74,65 @@ randomButton.onclick = () => {
     output.data[i] = 255;
   }
   density = densityRange.value * 0.1;
-  freespace = freeSpaceRange.value * 0.1;
-  board.setRandom(density, freespace);
+  fullness = fullnessRange.value * 0.1;
+  board.setRandom(density, fullness);
   let maker = new ImageDataMaker(width, height, board.currentMatrix);
   let data = maker.createImageData();
   ctx.putImageData(data, 0, 0);
+  generation = 0;
+  counter.textContent = generation;
 }
 
 
 intervalRange.oninput = () => {
-  interval = intervalRange.value;
-  clearInterval(intervalID);
-  intervalID = setInterval(() => {
-    rule = ruleSelect.value;
-    step = board.nextStep(rule);
-    let maker = new ImageDataMaker(width, height, board.currentMatrix);
-    let data = maker.createImageData();
-    ctx.putImageData(data, 0, 0);
-  }, interval);
+  if (!intervalID) {
+    interval = intervalRange.value;
+  }
+  else {
+    interval = intervalRange.value;
+    clearInterval(intervalID);
+    intervalID = setInterval(() => {
+      rule = ruleSelect.value;
+      step = board.nextStep(rule);
+      let maker = new ImageDataMaker(width, height, board.currentMatrix);
+      let data = maker.createImageData();
+      ctx.putImageData(data, 0, 0);
+      counter.textContent = ++generation;
+    }, interval);
+  }
 }
 
+// Переработать
+fullnessRange.oninput = () => {
+  clearInterval(intervalID);
+  intervalID = null;
+  for (var i = 0; i < length; i++) {
+    output.data[i] = 255;
+  }
+  density = densityRange.value * 0.1;
+  fullness = fullnessRange.value * 0.1;
+  board.setRandom(density, fullness);
+  let maker = new ImageDataMaker(width, height, board.currentMatrix);
+  let data = maker.createImageData();
+  ctx.putImageData(data, 0, 0);
+  generation = 0;
+  counter.textContent = generation;
+}
+
+// Переработать
+densityRange.oninput = () => {
+  clearInterval(intervalID);
+  intervalID = null;
+  for (var i = 0; i < length; i++) {
+    output.data[i] = 255;
+  }
+  density = densityRange.value * 0.1;
+  fullness = fullnessRange.value * 0.1;
+  board.setRandom(density, fullness);
+  let maker = new ImageDataMaker(width, height, board.currentMatrix);
+  let data = maker.createImageData();
+  ctx.putImageData(data, 0, 0);
+  generation = 0;
+  counter.textContent = generation;
+}
 
