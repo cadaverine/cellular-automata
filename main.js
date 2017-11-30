@@ -15,11 +15,12 @@ let ruleSelect = document.getElementsByClassName("select-rules")[0];
 let canvas = document.getElementsByClassName("canvas")[0];
 let startButton = document.getElementsByClassName("start-button")[0];
 let stopButton = document.getElementsByClassName("stop-button")[0];
-let randomButton = document.getElementsByClassName("random-button")[0];
+let resetButton = document.getElementsByClassName("random-button")[0];
 let intervalRange = document.getElementsByClassName("interval-range")[0];
 let densityRange = document.getElementsByClassName("density-range")[0];
 let fullnessRange = document.getElementsByClassName("free-space-range")[0];
-let counter = document.getElementsByClassName("counter")[0];
+let generationCounter = document.getElementsByClassName("counter generation")[0];
+let populationCounter = document.getElementsByClassName("counter population")[0];
 
 let width = canvas.width;
 let height = canvas.height;
@@ -41,21 +42,23 @@ let data = maker.createImageData();
 ctx.putImageData(data, 0, 0);
 
 
-
 let intervalID = null;
 let generation = 0;
-counter.textContent = generation;
+let population = board.population;
+generationCounter.textContent = generation;
+populationCounter.textContent = population;
+
 
 startButton.onclick = () => {
   if (!intervalID) {
-    generation = 0;
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
       step = board.nextStep(rule);
       let maker = new ImageDataMaker(width, height, board.currentMatrix);
       let data = maker.createImageData();
       ctx.putImageData(data, 0, 0);
-      counter.textContent = ++generation;
+      generationCounter.textContent = ++generation;
+      populationCounter.textContent = board.population;
     }, interval);
   }
 }
@@ -67,7 +70,7 @@ stopButton.onclick = () => {
 }
 
 
-randomButton.onclick = () => {
+resetButton.onclick = () => {
   clearInterval(intervalID);
   intervalID = null;
   for (var i = 0; i < length; i++) {
@@ -80,7 +83,8 @@ randomButton.onclick = () => {
   let data = maker.createImageData();
   ctx.putImageData(data, 0, 0);
   generation = 0;
-  counter.textContent = generation;
+  generationCounter.textContent = generation;
+  populationCounter.textContent = board.population;
 }
 
 
@@ -97,7 +101,8 @@ intervalRange.oninput = () => {
       let maker = new ImageDataMaker(width, height, board.currentMatrix);
       let data = maker.createImageData();
       ctx.putImageData(data, 0, 0);
-      counter.textContent = ++generation;
+      generationCounter.textContent = ++generation;
+      populationCounter.textContent = board.population;
     }, interval);
   }
 }
@@ -116,7 +121,8 @@ fullnessRange.oninput = () => {
   let data = maker.createImageData();
   ctx.putImageData(data, 0, 0);
   generation = 0;
-  counter.textContent = generation;
+  generationCounter.textContent = generation;
+  populationCounter.textContent = board.population;
 }
 
 // Переработать
@@ -133,6 +139,7 @@ densityRange.oninput = () => {
   let data = maker.createImageData();
   ctx.putImageData(data, 0, 0);
   generation = 0;
-  counter.textContent = generation;
+  generationCounter.textContent = generation;
+  populationCounter.textContent = board.population;
 }
 

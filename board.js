@@ -13,6 +13,8 @@ class Board {
     	conway: this.__conway,
     	steppers: this.__steppers
     }
+
+    this.population = 0;
   }
 
 
@@ -20,10 +22,14 @@ class Board {
     let width = this.width;
     let height = this.height * fullness;
     let reminder = this.height - height
+    this.population = 0;
 
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
         this.currentMatrix[i][j] = Math.round(density * Math.random());
+        if (this.currentMatrix[i][j] > 0) {
+          this.population++;
+        }
       }
     }
     for(let i = 0; i < width; i++) {
@@ -52,6 +58,9 @@ class Board {
     let currentMatrix = this.currentMatrix;
 
     let setNext = this.rules[rule];
+
+    this.population = 0;
+
 
     // center
     for(let i = 1; i < width - 1; i++) {
@@ -175,9 +184,10 @@ class Board {
 
 
   __conway(_this, accum, i, j) {
-    if (_this.currentMatrix[i][j] === 1) {
+    if (_this.currentMatrix[i][j] >= 1) {
       if (accum == 2 || accum == 3) {
         _this.nextMatrix[i][j] = 1;
+        _this.population++;
       }
       else {
         _this.nextMatrix[i][j] = 0;
@@ -186,6 +196,7 @@ class Board {
     else {
       if (accum == 3) {
         _this.nextMatrix[i][j] = 1;
+        _this.population++;
       }
       else {
         _this.nextMatrix[i][j] = 0;
@@ -200,10 +211,12 @@ class Board {
 
     if (_this.currentMatrix[i][j] === 10) {
     	_this.nextMatrix[i][j] = 1;
+      _this.population++;
     }
     else if (_this.currentMatrix[i][j] === 1) {
     	if ((neighbours == 2 || neighbours == 3) && youngNum <= 1) {
 	    	_this.nextMatrix[i][j] = 1;
+        _this.population++;
     	}
     	else {
 	    	_this.nextMatrix[i][j] = 0;
@@ -212,6 +225,7 @@ class Board {
     else {
       if (neighbours == 3 && oldNum >= 2) {
         _this.nextMatrix[i][j] = 10;
+        _this.population++;
       }
       else {
         _this.nextMatrix[i][j] = 0;
