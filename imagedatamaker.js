@@ -1,14 +1,10 @@
 class ImageDataMaker {
-  constructor(width, height, matrix) {
-    this.step = width / matrix.length;
+  constructor(width, height) {
     this.array = new Uint8ClampedArray(4 * width * height);
-    this.matrix = matrix;
-    this.width = width;
-    this.height = height;
   }
 
-
-  createImageData(r = 50, g = 50, b = 50, a = 100) {
+  // r = 50, g = 50, b = 50, a = 100
+  createImageData(matrix, colors) {
     let width = this.matrix.length;
     let height = this.matrix[0].length;
     let array = this.array;

@@ -1,10 +1,10 @@
 class Board {
-  constructor(canvas, step) {
+  constructor(width, height, step) {
     this.step = step;
 
     // need an explanation:
-    this.height = canvas.width / step;
-    this.width = canvas.height / step;
+    this.height = width / step;
+    this.width = height / step;
 
     this.currentMatrix = this.__createMatrix(this.width, this.height);
     this.nextMatrix = this.__createMatrix(this.width, this.height);

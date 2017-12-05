@@ -35,7 +35,7 @@ let density = densityRange.value * 0.1;
 let fullness = fullnessRange.value * 0.1;
 
 
-let board = new Board(canvas, 1);
+let board = new Board(canvas.width, canvas.height, 1);
 board.setRandom(density, fullness);
 let maker = new ImageDataMaker(width, height, board.currentMatrix);
 let data = maker.createImageData();
