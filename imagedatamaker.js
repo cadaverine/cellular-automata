@@ -3,33 +3,33 @@ class ImageDataMaker {
     this.array = new Uint8ClampedArray(4 * width * height);
   }
 
-  // r = 50, g = 50, b = 50, a = 100
+
   createImageData(matrix, colors) {
-    let width = this.matrix.length;
-    let height = this.matrix[0].length;
+    let width = matrix.length;
+    let height = matrix[0].length;
     let array = this.array;
-    let matrix = this.matrix;
-    let colors = 4;
+
+    let colorsNum = 4;
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
-        let k = j * colors + i * height * colors;
-        if (matrix[i][j] == 1) {
-          array[    k] = r;
-          array[1 + k] = g;
-          array[2 + k] = 200;
-          array[3 + k] = 100;
+        let k = j * colorsNum + i * height * colorsNum;
+        if (matrix[i][j] == 10){
+          array[    k] = colors[2].r;
+          array[1 + k] = colors[2].g;
+          array[2 + k] = colors[2].b;
+          array[3 + k] = colors[2].a;
         }
-        else if (matrix[i][j] == 10){
-          array[    k] = 200;
-          array[1 + k] = g;
-          array[2 + k] = b;
-          array[3 + k] = 150;
+        else if (matrix[i][j] == 1) {
+          array[    k] = colors[1].r;
+          array[1 + k] = colors[1].g;
+          array[2 + k] = colors[1].b;
+          array[3 + k] = colors[1].a;
         }
         else {
-          array[    k] = 0;
-          array[1 + k] = 0;
-          array[2 + k] = 0;
-          array[3 + k] = 0;
+          array[    k] = colors[0].r;
+          array[1 + k] = colors[0].g;
+          array[2 + k] = colors[0].b;
+          array[3 + k] = colors[0].a;
         }
       }
     }

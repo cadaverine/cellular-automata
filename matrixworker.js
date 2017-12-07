@@ -1,8 +1,9 @@
-importScripts('board.js');
 
 let board = null;
 
 onmessage = (e) => {
+  importScripts('/board.js');
+  
   let command = e.data.command;
   let params = e.data.params;
 
