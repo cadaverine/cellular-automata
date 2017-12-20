@@ -2,7 +2,7 @@ let dataMaker = null;
 
 onmessage = (e) => {
   if (typeof ImageDataMaker === "undefined") {
-    importScripts('/imagedatamaker.js');
+    importScripts('https://cadaverine.github.io/cellular_automata/imagedatamaker.js');
   }
   
   let command = e.data.command;

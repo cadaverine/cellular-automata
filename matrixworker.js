@@ -2,7 +2,7 @@ let board = null;
 
 onmessage = (e) => {
   if (typeof Board === "undefined") {
-    importScripts('/board.js');
+    importScripts('https://cadaverine.github.io/cellular_automata/board.js');
   }
   
   let command = e.data.command;
