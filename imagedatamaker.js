@@ -5,9 +5,9 @@ class ImageDataMaker {
 
 
   createImageData(matrix, colors) {
+    let array = this.array;
     let width = matrix.length;
     let height = matrix[0].length;
-    let array = this.array;
 
     let colorsNum = 4;
     for(let i = 0; i < width; i++) {
@@ -34,7 +34,7 @@ class ImageDataMaker {
       }
     }
 
-    let imageData = new ImageData(this.array, this.width, this.height);
+    let imageData = new ImageData(this.array, height, width);
     return imageData;
   }
 }

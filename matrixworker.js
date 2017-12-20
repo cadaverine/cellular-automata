@@ -1,8 +1,9 @@
-
 let board = null;
 
 onmessage = (e) => {
-  importScripts('/board.js');
+  if (typeof Board === "undefined") {
+    importScripts('/board.js');
+  }
   
   let command = e.data.command;
   let params = e.data.params;
@@ -10,17 +11,21 @@ onmessage = (e) => {
   switch(command) {
   	case "construct":
   		board = new Board(params.width, params.height, params.step);
+      break;
 
-  	case "next":
-  		if (board) {
-				let matrix = board.nextStep(params.rule);
+    case "next":
+      if (board) {
+        let matrix = board.nextStep(params.rule);
+        self.postMessage(matrix);
+      }
+      break;
+
+    case "random":
+      if (board) {
+        board.setRandom(params.density, params.fullness);
+        let matrix = board.currentMatrix
 				self.postMessage(matrix);
   		}
-
-		case "random":
-  		if (board) {
-				let matrix = board.setRandom(params.density, params.fullness);
-				self.postMessage(matrix);
-  		}
+      break;
   }
 };

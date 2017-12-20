@@ -3,6 +3,7 @@ class WorkerManager {
     this.rule = rule;
     this.width = width;
     this.height = height;
+    this.step = 1;
 
     this.dataBuffer = [];
     this.matrixBuffer = [];
@@ -15,8 +16,7 @@ class WorkerManager {
 
     this.matrixWorker.onmessage = (message) => {
       this.matrixBuffer.push(message.data);
-
-      let message = {
+      this.dataWorker.postMessage({
         command: "create data",
         params: {
           matrix: this.matrixBuffer.shift(),
@@ -26,22 +26,19 @@ class WorkerManager {
             { r: 200, g: 200, b: 200, a: 200 }
           ]
         }
-      }
-      this.dataWorker.postMessage(message);
+      });
     }
 
 
     this.dataWorker.onmessage = (message) => {
       this.dataBuffer.push(message.data);
       if (this.dataBuffer.length < this.bufferLength) {
-
-        let message = {
+        this.matrixWorker.postMessage({
           command: "next",
           params: {
             rule: this.rule
           }
-        }
-        this.matrixBuffer.postMessage(message);
+        });
       }
     }
 
@@ -49,7 +46,8 @@ class WorkerManager {
       command: "construct",
       params: {
         width: this.width,
-        height: this.height
+        height: this.height,
+        step: this.step
       }
     }
     this.matrixWorker.postMessage(message);
@@ -66,14 +64,17 @@ class WorkerManager {
         rule: this.rule
       }
     }
-    this.matrixBuffer.postMessage(message);
+    this.matrixWorker.postMessage(message);
   }
 
 
-  setRandomMatrix() {
+  setRandomMatrix(density, fullness) {
     let message = {
       command: "random",
-      params: {}
+      params: {
+        density,
+        fullness
+      }
     }
     this.matrixWorker.postMessage(message);
   }
@@ -81,7 +82,7 @@ class WorkerManager {
 
   getData() {
     if (this.dataBuffer.length) {
-      data = this.dataBuffer.shift();
+      let data = this.dataBuffer.shift();
       this.nextStep()
       return data;
     }
@@ -90,5 +91,4 @@ class WorkerManager {
       return null;
     }
   }
-
 }

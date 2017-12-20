@@ -35,32 +35,34 @@ let density = densityRange.value * 0.1;
 let fullness = fullnessRange.value * 0.1;
 
 
-let board = new Board(canvas.width, canvas.height, 1);
-board.setRandom(density, fullness);
+// let board = new Board(canvas.width, canvas.height, 1);
+// board.setRandom(density, fullness);
 // let maker = new ImageDataMaker(width, height, board.currentMatrix);
 // let data = maker.createImageData();
 // ctx.putImageData(data, 0, 0);
 
-console.log(board);
-
 let intervalID = null;
 let generation = 0;
-let population = board.population;
+// let population = board.population;
 generationCounter.textContent = generation;
-populationCounter.textContent = population;
+// populationCounter.textContent = population;
 
 
-let workerManager = new WorkerManager(20, width, height, rule);
+let workerManager = new WorkerManager(100, width, height, rule);
+workerManager.setRandomMatrix(.6, .6);
 
 
 startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
+      let data = workerManager.getData();
+      if (data) {
+        ctx.putImageData(data, 0, 0);
+      }
       // rule = ruleSelect.value;
       // step = board.nextStep(rule);
       // let maker = new ImageDataMaker(width, height, board.currentMatrix);
       // let data = maker.createImageData();
-      // ctx.putImageData(data, 0, 0);
       // generationCounter.textContent = ++generation;
       // populationCounter.textContent = board.population;
     }, interval);

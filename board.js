@@ -137,29 +137,29 @@ class Board {
 
     // need to update
     // corners
-    let i = 0, j = 0;
-    leftTop = currentMatrix[i + 1][j    ] +
-              currentMatrix[i + 1][j + 1] +
-              currentMatrix[i    ][j + 1];
-    setNext(this, leftTop, i, j);
+    // let i = 0, j = 0;
+    // leftTop = currentMatrix[i + 1][j    ] +
+    //           currentMatrix[i + 1][j + 1] +
+    //           currentMatrix[i    ][j + 1];
+    // setNext(this, leftTop, i, j);
 
-    i = width - 1, j = 0;
-    rightTop = currentMatrix[i - 1][j    ] +
-               currentMatrix[i - 1][j + 1] +
-               currentMatrix[i    ][j + 1];
-    setNext(this, rightTop, i, j);
+    // i = width - 1, j = 0;
+    // rightTop = currentMatrix[i - 1][j    ] +
+    //            currentMatrix[i - 1][j + 1] +
+    //            currentMatrix[i    ][j + 1];
+    // setNext(this, rightTop, i, j);
 
-    i = 0, j = height - 1;
-    leftBottom = currentMatrix[i + 1][j    ] +
-                 currentMatrix[i + 1][j - 1] +
-                 currentMatrix[i    ][j - 1];
-    setNext(this, leftBottom, i, j);
+    // i = 0, j = height - 1;
+    // leftBottom = currentMatrix[i + 1][j    ] +
+    //              currentMatrix[i + 1][j - 1] +
+    //              currentMatrix[i    ][j - 1];
+    // setNext(this, leftBottom, i, j);
 
-    i = width - 1, j = height - 1;
-    rightBottom = currentMatrix[i - 1][j    ] +
-                  currentMatrix[i - 1][j - 1] +
-                  currentMatrix[i    ][j - 1];
-    setNext(this, rightBottom, i, j);
+    // i = width - 1, j = height - 1;
+    // rightBottom = currentMatrix[i - 1][j    ] +
+    //               currentMatrix[i - 1][j - 1] +
+    //               currentMatrix[i    ][j - 1];
+    // setNext(this, rightBottom, i, j);
 
 
     this.currentMatrix = nextMatrix;
