@@ -9,8 +9,8 @@ onmessage = (e) => {
   let params = e.data.params;
 
   switch(command) {
-  	case "construct":
-  		board = new Board(params.width, params.height, params.step);
+    case "construct":
+      board = new Board(params.width, params.height, params.step);
       break;
 
     case "next":
@@ -24,8 +24,8 @@ onmessage = (e) => {
       if (board) {
         board.setRandom(params.density, params.fullness);
         let matrix = board.currentMatrix
-				self.postMessage(matrix);
-  		}
+        self.postMessage(matrix);
+      }
       break;
   }
 };

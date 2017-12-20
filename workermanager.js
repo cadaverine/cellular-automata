@@ -57,37 +57,36 @@ class WorkerManager {
 
   nextStep(rule = this.rule) {
     this.rule = rule;
-
-    let message = {
+    this.matrixWorker.postMessage({
       command: "next",
       params: {
         rule: this.rule
       }
-    }
-    this.matrixWorker.postMessage(message);
+    });
   }
 
 
   setRandomMatrix(density, fullness) {
-    let message = {
+    this.dataBuffer = [];
+    this.matrixBuffer = [];
+    this.matrixWorker.postMessage({
       command: "random",
       params: {
         density,
         fullness
       }
-    }
-    this.matrixWorker.postMessage(message);
+    });
   }
 
-
-  getData() {
+  // Добавить rule
+  getData(rule = this.rule) {
     if (this.dataBuffer.length) {
       let data = this.dataBuffer.shift();
-      this.nextStep()
+      this.nextStep(rule)
       return data;
     }
     else {
-      this.nextStep()
+      this.nextStep(rule)
       return null;
     }
   }
