@@ -5,11 +5,12 @@ class ImageDataMaker {
 
 
   createImageData(matrix, colors) {
-    let array = this.array;
+    // let array = this.array;
+    let colorsNum = 4;
     let width = matrix.length;
     let height = matrix[0].length;
+    let array = new Uint8ClampedArray(colorsNum * width * height);
 
-    let colorsNum = 4;
     for(let i = 0; i < width; i++) {
       for(let j = 0; j < height; j++) {
         let k = j * colorsNum + i * height * colorsNum;
@@ -34,7 +35,8 @@ class ImageDataMaker {
       }
     }
 
-    let imageData = new ImageData(this.array, height, width);
-    return imageData;
+    // let imageData = new ImageData(this.array, height, width);
+    // return imageData;
+    return array;
   }
 }

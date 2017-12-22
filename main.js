@@ -7,9 +7,11 @@
 // 4) Добавить параметр "возраст": молодость/зрелость/старость
 // 4) Добавить температурную подсветку (зоны активности, затухания...)
 // 5) Создание внешнего вида вынести в класс UI
-// 6) Вынести обсчет матриц в Worker
+// 6) Вынести обсчет матриц в Worker (СДЕЛАНО)
 // 7) Для обсчета матриц использовать WebAssembly (Rust) ?
 // 8) Добавить возможность задавать произвольные правила
+// 9) Класс матриц на основе типизированных массивов
+// 10) Использовать Transferable Objects (Uint8ClampedArray.buffer)
 
 let ruleSelect = document.getElementsByClassName("select-rules")[0];
 let canvas = document.getElementsByClassName("canvas")[0];
@@ -56,8 +58,14 @@ startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
-      let data = workerManager.getData(rule);
-      ctx.putImageData(data, 0, 0); 
+      // let data = workerManager.getData(rule);
+      // let imageData = new ImageData(data, 450, 300);
+      let buffer = workerManager.getData(rule);
+      let data = new Uint8ClampedArray(buffer);
+      let imageData = new ImageData(data, 450, 300);
+
+
+      ctx.putImageData(imageData, 0, 0); 
       // step = board.nextStep(rule);
       // let maker = new ImageDataMaker(width, height, board.currentMatrix);
       // let data = maker.createImageData();
@@ -85,6 +93,8 @@ resetButton.onclick = () => {
   // board.setRandom(density, fullness);
   workerManager.setRandomMatrix(density, fullness);
   let data = workerManager.getData(rule);
+  let imageData = new ImageData(data, 450, 300);
+
   ctx.putImageData(data, 0, 0); 
 
   // let maker = new ImageDataMaker(width, height, board.currentMatrix);
