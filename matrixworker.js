@@ -1,11 +1,8 @@
+importScripts('https://cadaverine.github.io/cellular_automata/board.js');
+
 let board = null;
 
-onmessage = (e) => {
-  if (typeof Board === "undefined") {
-    importScripts('https://cadaverine.github.io/cellular_automata/board.js');
-    // importScripts('board.js');
-  }
-  
+onmessage = (e) => {  
   let command = e.data.command;
   let params = e.data.params;
 

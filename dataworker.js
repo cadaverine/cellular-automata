@@ -1,11 +1,8 @@
+importScripts('https://cadaverine.github.io/cellular_automata/imagedatamaker.js');
+
 let dataMaker = null;
 
-onmessage = (e) => {
-  if (typeof ImageDataMaker === "undefined") {
-    importScripts('https://cadaverine.github.io/cellular_automata/imagedatamaker.js');
-    // importScripts('imagedatamaker.js');
-  }
-  
+onmessage = (e) => {  
   let command = e.data.command;
   let params = e.data.params;
 
