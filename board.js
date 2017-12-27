@@ -1,16 +1,11 @@
 class Board {
   constructor(width, height, step = 1) {
     this.step = step;
-
-    // need an explanation:
     this.height = height / step;
     this.width = width / step;
 
-    // this.currentMatrix = this.__createMatrix(this.width, this.height);
-    // this.nextMatrix = this.__createMatrix(this.width, this.height);
-
-    this._currentMatrix = new Uint8ClampedArray(this.width * this.height).fill(0);
-    this._nextMatrix = new Uint8ClampedArray(this.width * this.height).fill(0);
+    this.currentMatrix = new Uint8ClampedArray(this.width * this.height).fill(0);
+    this.nextMatrix = new Uint8ClampedArray(this.width * this.height).fill(0);
 
     this.rules = {
       conway: this.__conway,
@@ -21,25 +16,11 @@ class Board {
   }
 
 
-  setRandom(density, fullness) {
+  setRandom(density = .7, fullness = .7) {
     let width = this.width;
     let height = this.height * fullness;
     let reminder = this.height - height
     this.population = 0;
-
-    // for(let i = 0; i < width; i++) {
-    //   for(let j = 0; j < height; j++) {
-    //     this.currentMatrix[i][j] = Math.round(density * Math.random());
-    //     if (this.currentMatrix[i][j] > 0) {
-    //       this.population++;
-    //     }
-    //   }
-    // }
-    // for(let i = 0; i < width; i++) {
-    //   for(let j = height; j < height + reminder; j++) {
-    //     this.currentMatrix[i][j] = 0;
-    //   }
-    // }
 
     for(let i = 0; i < height; i++) {
       for(let j = 0; j < width; j++) {
@@ -55,30 +36,6 @@ class Board {
       }
     }
   }
-
-  // width + width * height
-
-  // setRandom(density, fullness) {
-  //   let width = this.width;
-  //   let height = this.height * fullness;
-  //   let reminder = this.height - height
-  //   this.population = 0;
-
-  //   for(let i = 0; i < width; i++) {
-
-  //     for(let j = 0; j < height; j++) {
-  //       this._currentMatrix[i + i * j] = Math.round(density * Math.random());
-  //       if (this.currentMatrix[i + i * j] > 0) {
-  //         this.population++;
-  //       }
-  //     }
-  //   }
-  //   for(let i = 0; i < width; i++) {
-  //     for(let j = height; j < height + reminder; j++) {
-  //       this.currentMatrix[i + i * j] = 0;
-  //     }
-  //   }
-  // }
 
 
   nextStep(rule = "conway") {
@@ -185,7 +142,7 @@ class Board {
     config[6] = currentMatrix[j     + (i + 1) * width];
     config[7] = currentMatrix[j + 1 + (i + 1) * width];
 
-    setNext(this, leftTop, i, j);
+    setNext(this, config, i, j);
 
     // right-top corner
     config[0] = currentMatrix[w - 1 +  h      * width];
@@ -197,7 +154,7 @@ class Board {
     config[6] = currentMatrix[w     + (i + 1) * width];
     config[7] = currentMatrix[j     + (i + 1) * width];
 
-    setNext(this, leftTop, i, j);
+    setNext(this, config, i, j);
 
     // left-bottom corner
     config[0] = currentMatrix[w     + (h - 1) * width];
@@ -209,7 +166,7 @@ class Board {
     config[6] = currentMatrix[j     +  i      * width];
     config[7] = currentMatrix[j + 1 +  i      * width];
 
-    setNext(this, leftTop, i, j);
+    setNext(this, config, i, j);
 
     // right-bottom corner
     config[0] = currentMatrix[w - 1 + (h - 1) * width];
@@ -221,7 +178,7 @@ class Board {
     config[6] = currentMatrix[w     +  i      * width];
     config[7] = currentMatrix[j     +  i      * width];
 
-    setNext(this, leftTop, i, j);
+    setNext(this, config, i, j);
 
     this.currentMatrix = nextMatrix;
     this.nextMatrix = currentMatrix;
@@ -233,50 +190,37 @@ class Board {
   // ***********************
 
   __conway(_this, config, i, j) {
-    for(let i = 0; i < )
+    let width = _this.width;
+    let accum = config[0] +
+                config[1] +
+                config[2] +
+                config[3] +
+                config[4] +
+                config[5] +
+                config[6] +
+                config[7];
 
-
-    if (_this.currentMatrix[i][j] >= 1) {
+    if (_this.currentMatrix[j + i * width] >= 1) {
       if (accum == 2 || accum == 3) {
-        _this.nextMatrix[i][j] = 1;
+        _this.nextMatrix[j + i * width] = 1;
         _this.population++;
       }
       else {
-        _this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[j + i * width] = 0;
       }
     }
     else {
       if (accum == 3) {
-        _this.nextMatrix[i][j] = 1;
+        _this.nextMatrix[j + i * width] = 1;
         _this.population++;
       }
       else {
-        _this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[j + i * width] = 0;
       }
     }
   }
 
 
-  // __conway(_this, accum, i, j) {
-  //   if (_this.currentMatrix[i][j] >= 1) {
-  //     if (accum == 2 || accum == 3) {
-  //       _this.nextMatrix[i][j] = 1;
-  //       _this.population++;
-  //     }
-  //     else {
-  //       _this.nextMatrix[i][j] = 0;
-  //     }
-  //   }
-  //   else {
-  //     if (accum == 3) {
-  //       _this.nextMatrix[i][j] = 1;
-  //       _this.population++;
-  //     }
-  //     else {
-  //       _this.nextMatrix[i][j] = 0;
-  //     }
-  //   }
-  // }
 
   __steppers(_this, accum, i, j) {
     let oldNum = accum % 10;

@@ -50,8 +50,13 @@ generationCounter.textContent = generation;
 // populationCounter.textContent = population;
 
 
-let workerManager = new WorkerManager(100, width, height, rule);
-workerManager.setRandomMatrix(.6, .6);
+// let workerManager = new WorkerManager(100, width, height, rule);
+// workerManager.setRandomMatrix(.6, .6);
+let board = new Board(width, height);
+board.setRandom();
+board.nextStep();
+board.nextStep();
+board.nextStep();
 
 
 startButton.onclick = () => {
