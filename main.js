@@ -54,9 +54,24 @@ generationCounter.textContent = generation;
 // workerManager.setRandomMatrix(.6, .6);
 let board = new Board(width, height);
 board.setRandom();
-board.nextStep();
-board.nextStep();
-board.nextStep();
+
+let colors = [
+  { r:   0, g:   0, b:   0, a:   0 },
+  { r: 100, g: 100, b: 100, a: 100 },
+  { r: 200, g: 200, b: 200, a: 200 }
+]
+
+let imageDataMaker = new ImageDataMaker(width, height);
+let data = imageDataMaker.createImageData(board.currentMatrix, colors);
+
+
+let imageData = new ImageData(data, 450, 300);
+
+
+
+
+ctx.putImageData(imageData, 0, 0); 
+
 
 
 startButton.onclick = () => {
@@ -65,9 +80,15 @@ startButton.onclick = () => {
       rule = ruleSelect.value;
       // let data = workerManager.getData(rule);
       // let imageData = new ImageData(data, 450, 300);
-      let buffer = workerManager.getData(rule);
-      let data = new Uint8ClampedArray(buffer);
-      let imageData = new ImageData(data, 450, 300);
+      // let buffer = workerManager.getData(rule);
+      // let data = new Uint8ClampedArray(buffer);
+
+
+      // let imageData = new ImageData(data, 450, 300);
+      board.nextStep();
+      let data = imageDataMaker.createImageData(board.currentMatrix, colors);
+      let imageData = new ImageData(data, width, height);
+
 
 
       ctx.putImageData(imageData, 0, 0); 

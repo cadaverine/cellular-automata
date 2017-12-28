@@ -1,26 +1,27 @@
 class ImageDataMaker {
   constructor(width, height) {
-    this.array = new Uint8ClampedArray(4 * width * height);
+    this.width = width;
+    this.height = height;
   }
 
 
   createImageData(matrix, colors) {
-    // let array = this.array;
     let colorsNum = 4;
-    let width = matrix.length;
-    let height = matrix[0].length;
+    let width = this.width;
+    let height = this.height;
     let array = new Uint8ClampedArray(colorsNum * width * height);
 
-    for(let i = 0; i < width; i++) {
-      for(let j = 0; j < height; j++) {
-        let k = j * colorsNum + i * height * colorsNum;
-        if (matrix[i][j] == 10){
+    for(let i = 0; i < height; i++) {
+      for(let j = 0; j < width; j++) {
+        // let k = j * colorsNum + i * height * colorsNum;
+        let k = (j + i * width) * colorsNum;
+        if (matrix[j + i * width] == 10){
           array[    k] = colors[2].r;
           array[1 + k] = colors[2].g;
           array[2 + k] = colors[2].b;
           array[3 + k] = colors[2].a;
         }
-        else if (matrix[i][j] == 1) {
+        else if (matrix[j + i * width] == 1) {
           array[    k] = colors[1].r;
           array[1 + k] = colors[1].g;
           array[2 + k] = colors[1].b;
