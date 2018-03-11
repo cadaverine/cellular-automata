@@ -13,7 +13,6 @@ class ImageDataMaker {
 
     for(let i = 0; i < height; i++) {
       for(let j = 0; j < width; j++) {
-        // let k = j * colorsNum + i * height * colorsNum;
         let k = (j + i * width) * colorsNum;
         if (matrix[j + i * width] == 10){
           array[    k] = colors[2].r;
@@ -35,9 +34,6 @@ class ImageDataMaker {
         }
       }
     }
-
-    // let imageData = new ImageData(this.array, height, width);
-    // return imageData;
     return array;
   }
 }

@@ -36,22 +36,10 @@ let interval = intervalRange.value;
 let density = densityRange.value * 0.1;
 let fullness = fullnessRange.value * 0.1;
 
-
-// let board = new Board(canvas.width, canvas.height, 1);
-// board.setRandom(density, fullness);
-// let maker = new ImageDataMaker(width, height, board.currentMatrix);
-// let data = maker.createImageData();
-// ctx.putImageData(data, 0, 0);
-
 let intervalID = null;
 let generation = 0;
-// let population = board.population;
 generationCounter.textContent = generation;
-// populationCounter.textContent = population;
 
-
-// let workerManager = new WorkerManager(100, width, height, rule);
-// workerManager.setRandomMatrix(.6, .6);
 let board = new Board(width, height);
 board.setRandom();
 
@@ -64,39 +52,20 @@ let colors = [
 let imageDataMaker = new ImageDataMaker(width, height);
 let data = imageDataMaker.createImageData(board.currentMatrix, colors);
 
-
 let imageData = new ImageData(data, 450, 300);
 
-
-
-
 ctx.putImageData(imageData, 0, 0); 
-
-
 
 startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
-      // let data = workerManager.getData(rule);
-      // let imageData = new ImageData(data, 450, 300);
-      // let buffer = workerManager.getData(rule);
-      // let data = new Uint8ClampedArray(buffer);
-
-
-      // let imageData = new ImageData(data, 450, 300);
       board.nextStep();
       let data = imageDataMaker.createImageData(board.currentMatrix, colors);
       let imageData = new ImageData(data, width, height);
 
-
-
       ctx.putImageData(imageData, 0, 0); 
-      // step = board.nextStep(rule);
-      // let maker = new ImageDataMaker(width, height, board.currentMatrix);
-      // let data = maker.createImageData();
       generationCounter.textContent = ++generation;
-      // populationCounter.textContent = board.population;
     }, interval);
   }
 }
@@ -116,19 +85,14 @@ resetButton.onclick = () => {
   }
   density = densityRange.value * 0.1;
   fullness = fullnessRange.value * 0.1;
-  // board.setRandom(density, fullness);
   workerManager.setRandomMatrix(density, fullness);
   let data = workerManager.getData(rule);
   let imageData = new ImageData(data, 450, 300);
 
   ctx.putImageData(data, 0, 0); 
 
-  // let maker = new ImageDataMaker(width, height, board.currentMatrix);
-  // let data = maker.createImageData();
-  // ctx.putImageData(data, 0, 0);
   generation = 0;
   generationCounter.textContent = generation;
-  // populationCounter.textContent = board.population;
 }
 
 
@@ -141,12 +105,6 @@ intervalRange.oninput = () => {
     clearInterval(intervalID);
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
-      // step = board.nextStep(rule);
-      // let maker = new ImageDataMaker(width, height, board.currentMatrix);
-      // let data = maker.createImageData();
-      // ctx.putImageData(data, 0, 0);
-      // generationCounter.textContent = ++generation;
-      // populationCounter.textContent = board.population;
     }, interval);
   }
 }
@@ -155,34 +113,10 @@ intervalRange.oninput = () => {
 fullnessRange.oninput = () => {
   clearInterval(intervalID);
   intervalID = null;
-  // for (var i = 0; i < length; i++) {
-  //   output.data[i] = 255;
-  // }
-  // density = densityRange.value * 0.1;
-  // fullness = fullnessRange.value * 0.1;
-  // board.setRandom(density, fullness);
-  // let maker = new ImageDataMaker(width, height, board.currentMatrix);
-  // let data = maker.createImageData();
-  // ctx.putImageData(data, 0, 0);
-  // generation = 0;
-  // generationCounter.textContent = generation;
-  // populationCounter.textContent = board.population;
 }
 
 // Переработать
 densityRange.oninput = () => {
   clearInterval(intervalID);
   intervalID = null;
-  // for (var i = 0; i < length; i++) {
-  //   output.data[i] = 255;
-  // }
-  // density = densityRange.value * 0.1;
-  // fullness = fullnessRange.value * 0.1;
-  // board.setRandom(density, fullness);
-  // let maker = new ImageDataMaker(width, height, board.currentMatrix);
-  // let data = maker.createImageData();
-  // ctx.putImageData(data, 0, 0);
-  // generation = 0;
-  // generationCounter.textContent = generation;
-  // populationCounter.textContent = board.population;
 }
