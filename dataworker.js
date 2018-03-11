@@ -1,5 +1,4 @@
-// importScripts('https://cadaverine.github.io/cellular_automata/imagedatamaker.js');
-importScripts('imagedatamaker.js');
+importScripts('../imagedatamaker.js');
 
 let dataMaker = null;
 

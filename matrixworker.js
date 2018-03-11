@@ -1,5 +1,4 @@
-// importScripts('https://cadaverine.github.io/cellular_automata/board.js');
-importScripts('board.js');
+importScripts('../board.js');
 
 let board = null;
 

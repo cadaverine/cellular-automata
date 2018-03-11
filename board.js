@@ -1,5 +1,10 @@
+DEFAULT_STEP = 1
+DEFAULT_DENSITY = .7
+DEFAULT_FULLNESS = .7
+
+
 class Board {
-  constructor(width, height, step = 1) {
+  constructor(width, height, step = DEFAULT_STEP) {
     this.step = step;
     this.height = height / step;
     this.width = width / step;
@@ -16,7 +21,7 @@ class Board {
   }
 
 
-  setRandom(density = .7, fullness = .7) {
+  setRandom(density = DEFAULT_DENSITY, fullness = DEFAULT_FULLNESS) {
     let width = this.width;
     let height = this.height * fullness;
     let reminder = this.height - height
@@ -250,5 +255,4 @@ class Board {
       }
     }
   }
-
 }
