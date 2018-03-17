@@ -227,31 +227,41 @@ class Board {
 
 
 
-  __steppers(_this, accum, i, j) {
+  __steppers(_this, config, i, j) {
+    let width = _this.width;
+    let accum = config[0] +
+                config[1] +
+                config[2] +
+                config[3] +
+                config[4] +
+                config[5] +
+                config[6] +
+                config[7];
+
     let oldNum = accum % 10;
     let youngNum = Math.floor(accum / 10);
     let neighbours = oldNum + youngNum;
 
-    if (_this.currentMatrix[i][j] === 10) {
-      _this.nextMatrix[i][j] = 1;
+    if (_this.currentMatrix[j + i * width] === 10) {
+      _this.nextMatrix[j + i * width] = 1;
       _this.population++;
     }
-    else if (_this.currentMatrix[i][j] === 1) {
+    else if (_this.currentMatrix[j + i * width] === 1) {
       if ((neighbours == 2 || neighbours == 3) && youngNum <= 1) {
-        _this.nextMatrix[i][j] = 1;
+        _this.nextMatrix[j + i * width] = 1;
         _this.population++;
       }
       else {
-        _this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[j + i * width] = 0;
       }
     }
     else {
       if (neighbours == 3 && oldNum >= 2) {
-        _this.nextMatrix[i][j] = 10;
+        _this.nextMatrix[j + i * width] = 10;
         _this.population++;
       }
       else {
-        _this.nextMatrix[i][j] = 0;
+        _this.nextMatrix[j + i * width] = 0;
       }
     }
   }

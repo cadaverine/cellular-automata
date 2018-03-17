@@ -1,18 +1,3 @@
-
-// Пожелания:
-// 1) Добавить алгоритм, который распознает осцилляторы, глайдеры,
-// степперы и прочие стабильные конфигурации
-// 2) Добавить возможность менять масштаб
-// 3) Добавить поддержку других клеточных автоматов (напр. "Steppers")
-// 4) Добавить параметр "возраст": молодость/зрелость/старость
-// 4) Добавить температурную подсветку (зоны активности, затухания...)
-// 5) Создание внешнего вида вынести в класс UI
-// 6) Вынести обсчет матриц в Worker (СДЕЛАНО)
-// 7) Для обсчета матриц использовать WebAssembly (Rust) ?
-// 8) Добавить возможность задавать произвольные правила
-// 9) Класс матриц на основе типизированных массивов
-// 10) Использовать Transferable Objects (Uint8ClampedArray.buffer)
-
 let ruleSelect = document.getElementsByClassName("select-rules")[0];
 let canvas = document.getElementsByClassName("canvas")[0];
 let startButton = document.getElementsByClassName("start-button")[0];
@@ -60,7 +45,8 @@ startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
-      board.nextStep();
+      console.log(rule);
+      board.nextStep(rule);
       let data = imageDataMaker.createImageData(board.currentMatrix, colors);
       let imageData = new ImageData(data, width, height);
 
