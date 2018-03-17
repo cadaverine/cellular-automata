@@ -86,9 +86,15 @@
 .range {
   width: 100px;
 }
+.interval-range {
+  transform: rotate(180deg);
+}
 
 .select-rules {
   border: 2px solid gray;
   border-radius: 2px;
   background-color: #eee;
+}
+.select-rules:focus {
+  outline: none;
 }
