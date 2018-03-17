@@ -1,18 +1,3 @@
-
-// Пожелания:
-// 1) Добавить алгоритм, который распознает осцилляторы, глайдеры,
-// степперы и прочие стабильные конфигурации
-// 2) Добавить возможность менять масштаб
-// 3) Добавить поддержку других клеточных автоматов (напр. "Steppers")
-// 4) Добавить параметр "возраст": молодость/зрелость/старость
-// 4) Добавить температурную подсветку (зоны активности, затухания...)
-// 5) Создание внешнего вида вынести в класс UI
-// 6) Вынести обсчет матриц в Worker (СДЕЛАНО)
-// 7) Для обсчета матриц использовать WebAssembly (Rust) ?
-// 8) Добавить возможность задавать произвольные правила
-// 9) Класс матриц на основе типизированных массивов
-// 10) Использовать Transferable Objects (Uint8ClampedArray.buffer)
-
 let ruleSelect = document.getElementsByClassName("select-rules")[0];
 let canvas = document.getElementsByClassName("canvas")[0];
 let startButton = document.getElementsByClassName("start-button")[0];
@@ -35,37 +20,37 @@ let rule = ruleSelect.value;
 let interval = intervalRange.value;
 let density = densityRange.value * 0.1;
 let fullness = fullnessRange.value * 0.1;
-
-let intervalID = null;
-let generation = 0;
-generationCounter.textContent = generation;
-
-let board = new Board(width, height);
-board.setRandom();
-
 let colors = [
-  { r:   0, g:   0, b:   0, a:   0 },
-  { r: 97, g: 96, b: 135, a: 100 },
+  { r: 0,   g: 0,   b:   0, a:   0 },
+  { r: 97,  g: 96,  b: 135, a: 100 },
   { r: 200, g: 200, b: 200, a: 200 }
 ]
 
+let board = new Board(width, height);
 let imageDataMaker = new ImageDataMaker(width, height);
+
+board.setRandom(density, fullness);
 let data = imageDataMaker.createImageData(board.currentMatrix, colors);
-
 let imageData = new ImageData(data, 450, 300);
-
 ctx.putImageData(imageData, 0, 0); 
+
+let intervalID = null;
+let generation = 0;
+let population = board.population;
+generationCounter.textContent = generation;
+populationCounter.textContent = population;
+
 
 startButton.onclick = () => {
   if (!intervalID) {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
-      board.nextStep();
+      step = board.nextStep(rule);
       let data = imageDataMaker.createImageData(board.currentMatrix, colors);
-      let imageData = new ImageData(data, width, height);
-
+      let imageData = new ImageData(data, 450, 300);
       ctx.putImageData(imageData, 0, 0); 
       generationCounter.textContent = ++generation;
+      populationCounter.textContent = board.population;
     }, interval);
   }
 }
@@ -74,25 +59,6 @@ startButton.onclick = () => {
 stopButton.onclick = () => {
   clearInterval(intervalID);
   intervalID = null;
-}
-
-
-resetButton.onclick = () => {
-  clearInterval(intervalID);
-  intervalID = null;
-  for (var i = 0; i < length; i++) {
-    output.data[i] = 255;
-  }
-  density = densityRange.value * 0.1;
-  fullness = fullnessRange.value * 0.1;
-  workerManager.setRandomMatrix(density, fullness);
-  let data = workerManager.getData(rule);
-  let imageData = new ImageData(data, 450, 300);
-
-  ctx.putImageData(data, 0, 0); 
-
-  generation = 0;
-  generationCounter.textContent = generation;
 }
 
 
@@ -105,18 +71,35 @@ intervalRange.oninput = () => {
     clearInterval(intervalID);
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
+      step = board.nextStep(rule);
+      let data = imageDataMaker.createImageData(board.currentMatrix, colors);
+      let imageData = new ImageData(data, 450, 300);
+      ctx.putImageData(imageData, 0, 0);
+      generationCounter.textContent = ++generation;
+      populationCounter.textContent = board.population;
     }, interval);
   }
 }
 
-// Переработать
-fullnessRange.oninput = () => {
+
+let resetOrChange = () => {
   clearInterval(intervalID);
   intervalID = null;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  density = densityRange.value * 0.1;
+  fullness = fullnessRange.value * 0.1;
+
+  board.setRandom(density, fullness);
+  let data = imageDataMaker.createImageData(board.currentMatrix, colors);
+  let imageData = new ImageData(data, 450, 300);
+  ctx.putImageData(imageData, 0, 0);
+
+  generation = 0;
+  generationCounter.textContent = generation;
+  populationCounter.textContent = board.population;
 }
 
-// Переработать
-densityRange.oninput = () => {
-  clearInterval(intervalID);
-  intervalID = null;
-}
+resetButton.onclick = resetOrChange;
+densityRange.oninput = resetOrChange;
+fullnessRange.oninput = resetOrChange;
