@@ -1,8 +1,7 @@
 * {
-  font-size: 20px;
   color: #353535;
+  font-size: 20px;
   font-family: 'Raleway', sans-serif;
-  /*font-family: 'Mina', sans-serif;*/
 }
 
 .main-container {
@@ -13,10 +12,9 @@
 
 .title {
   font-size: 42px;
-  height: 70px;
+  height: 60px;
   text-align: center;
 }
-
 
 .button {
   width: 28%;
@@ -47,16 +45,15 @@
   display: inline-flex;
   flex-direction: column;
   justify-content: space-around;
-  flex-basis: 40px;
   min-width: 260px;
-  min-height: 270px;
+  min-height: 290px;
   border-radius: 2px;
   border: 2px solid gray;
-  padding-top: 7px;
 }
 
 .button-container {
-  margin-bottom: 2%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .container {
@@ -88,4 +85,10 @@
 
 .range {
   width: 100px;
+}
+
+.select-rules {
+  border: 2px solid gray;
+  border-radius: 2px;
+  background-color: #eee;
 }
