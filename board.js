@@ -26,6 +26,7 @@ class Board {
     let height = this.height * fullness;
     let reminder = this.height - height
     this.population = 0;
+    this.currentMatrix.fill(0);
 
     for(let i = 0; i < height; i++) {
       for(let j = 0; j < width; j++) {
