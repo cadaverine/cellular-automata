@@ -46,9 +46,11 @@ startButton.onclick = () => {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
       step = board.nextStep(rule);
-      let data = imageDataMaker.createImageData(board.currentMatrix, colors);
-      let imageData = new ImageData(data, 450, 300);
-      ctx.putImageData(imageData, 0, 0); 
+      requestAnimationFrame(() => {
+        data = imageDataMaker.createImageData(board.currentMatrix, colors);
+        imageData = new ImageData(data, 450, 300);
+        ctx.putImageData(imageData, 0, 0);
+      }) 
       generationCounter.textContent = ++generation;
       populationCounter.textContent = board.population;
     }, interval);
@@ -72,9 +74,11 @@ intervalRange.oninput = () => {
     intervalID = setInterval(() => {
       rule = ruleSelect.value;
       step = board.nextStep(rule);
-      let data = imageDataMaker.createImageData(board.currentMatrix, colors);
-      let imageData = new ImageData(data, 450, 300);
-      ctx.putImageData(imageData, 0, 0);
+      requestAnimationFrame(() => {
+        data = imageDataMaker.createImageData(board.currentMatrix, colors);
+        imageData = new ImageData(data, 450, 300);
+        ctx.putImageData(imageData, 0, 0);
+      })
       generationCounter.textContent = ++generation;
       populationCounter.textContent = board.population;
     }, interval);
@@ -91,14 +95,16 @@ let resetOrChange = () => {
   fullness = fullnessRange.value * 0.1;
 
   board.setRandom(density, fullness);
-  let data = imageDataMaker.createImageData(board.currentMatrix, colors);
-  let imageData = new ImageData(data, 450, 300);
-  ctx.putImageData(imageData, 0, 0);
-
+  requestAnimationFrame(() => {
+    data = imageDataMaker.createImageData(board.currentMatrix, colors);
+    imageData = new ImageData(data, 450, 300);
+    ctx.putImageData(imageData, 0, 0);
+  })
   generation = 0;
   generationCounter.textContent = generation;
   populationCounter.textContent = board.population;
 }
+
 
 resetButton.onclick = resetOrChange;
 densityRange.oninput = resetOrChange;
